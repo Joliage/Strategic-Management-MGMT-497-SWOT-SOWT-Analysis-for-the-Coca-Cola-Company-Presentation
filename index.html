@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment 12 — SWOT &amp; SOWT Analysis for Coca-Cola | MGMT 497</title>
+<style>
+  :root{
+    --emerald:#028A0F;        /* required primary */
+    --emerald-deep:#015C0A;
+    --emerald-ink:#06340B;
+    --emerald-bright:#18B82E;
+    --lime:#B7E22A;
+    --gold:#E7B12C;
+    --rust:#C0492B;
+    --paper:#F5FBF3;
+    --mist:#E6F4E4;
+    --mist-2:#D6ECD4;
+    --card:#FFFFFF;
+    --line:#C6E1C2;
+    --ink:#0C2B0E;
+    --muted:#4B6B4D;
+    --shadow:0 14px 40px rgba(2,60,12,.16);
+    --shadow-sm:0 6px 18px rgba(2,60,12,.12);
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--sans);
+    background:
+      radial-gradient(1200px 700px at 18% -10%, #04330b 0%, transparent 60%),
+      radial-gradient(1100px 800px at 110% 120%, #024d09 0%, transparent 55%),
+      linear-gradient(140deg,#021f06,#03350b 55%,#022708);
+    color:var(--ink);
+    overflow:hidden;
+  }
+  #app{position:fixed;inset:0}
+  #stage{
+    position:absolute;top:50%;left:50%;
+    width:1280px;height:720px;
+    transform:translate(-50%,-50%);
+    transform-origin:center center;
+    background:var(--paper);
+    border-radius:14px;
+    box-shadow:0 30px 90px rgba(0,0,0,.55);
+    overflow:hidden;
+  }
+  #progress{position:absolute;top:0;left:0;height:5px;background:linear-gradient(90deg,var(--emerald),var(--emerald-bright),var(--lime));width:0;z-index:60;transition:width .35s ease}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;padding:46px 58px 70px}
+  .slide.active{display:flex;animation:fade .42s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--emerald-deep);font-weight:700;display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .eyebrow .tick{display:inline-block;width:26px;height:2px;background:var(--emerald)}
+  h1.title{font-family:var(--serif);font-weight:700;font-size:40px;line-height:1.06;color:var(--emerald-ink);letter-spacing:-.01em}
+  h2.title{font-family:var(--serif);font-weight:700;font-size:33px;line-height:1.08;color:var(--emerald-ink);letter-spacing:-.01em}
+  .sub{font-size:17px;color:var(--muted);margin-top:8px;max-width:1000px;line-height:1.5}
+  .rule{height:3px;width:64px;background:var(--emerald);border-radius:3px;margin:14px 0 18px}
+  .body{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px}
+  ul.bul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  ul.bul li{position:relative;padding-left:26px;font-size:17px;line-height:1.5;color:var(--ink)}
+  ul.bul li::before{content:"";position:absolute;left:4px;top:9px;width:9px;height:9px;border-radius:2px;background:var(--emerald);transform:rotate(45deg)}
+  ul.bul li b{color:var(--emerald-deep)}
+  .tight li{font-size:15.5px;gap:8px}
+  .cols{display:flex;gap:22px;flex:1;min-height:0}
+  .col{flex:1;min-width:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow-sm)}
+  .panel{background:var(--mist);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;background:var(--mist-2);color:var(--emerald-deep);border:1px solid var(--line)}
+  .chip.gold{background:#FBF1D4;color:#8a6b14;border-color:#ecd9a3}
+  .chip.s{background:#dff3df;color:#0a6b16}
+  .chip.w{background:#f7e2db;color:#8a3320}
+  .chip.o{background:#dfeefb;color:#1a5a8a}
+  .chip.t{background:#fbf1d4;color:#8a6b14}
+  .kpi{font-family:var(--serif);font-weight:700;color:var(--emerald);line-height:1}
+  .big{font-size:60px}
+  .stat-row{display:flex;gap:16px;flex-wrap:wrap}
+  .stat{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm)}
+  .stat .n{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--emerald)}
+  .stat .l{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.35}
+  .tool{flex:1;min-height:0;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+  .tool-bar{display:flex;align-items:center;gap:12px;padding:12px 18px;background:linear-gradient(90deg,var(--emerald-ink),var(--emerald-deep));color:#eafbe9}
+  .tool-bar .badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;background:rgba(255,255,255,.16);padding:4px 9px;border-radius:6px}
+  .tool-bar .name{font-weight:700;font-size:15px;letter-spacing:.01em}
+  .tool-bar .how{margin-left:auto;font-size:12.5px;color:#bfe7be;display:flex;align-items:center;gap:7px}
+  .tool-body{flex:1;min-height:0;padding:16px 18px;overflow:hidden;display:flex;gap:16px}
+  button.btn{font-family:var(--sans);font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--mist);color:var(--emerald-ink);padding:9px 14px;border-radius:10px;cursor:pointer;transition:.15s}
+  button.btn:hover{background:var(--mist-2);transform:translateY(-1px)}
+  button.btn.solid{background:var(--emerald);color:#fff;border-color:var(--emerald)}
+  button.btn.solid:hover{background:var(--emerald-deep)}
+  button.btn.on{background:var(--emerald);color:#fff;border-color:var(--emerald);box-shadow:var(--shadow-sm)}
+  button.btn.sm{padding:6px 10px;font-size:12.5px;border-radius:8px}
+  button.opt{display:block;width:100%;text-align:left;margin:7px 0;padding:11px 14px;border:1.5px solid var(--line);background:#fff;border-radius:10px;cursor:pointer;font-size:14.5px;color:var(--ink);transition:.12s}
+  button.opt:hover{border-color:var(--emerald);background:var(--paper)}
+  button.opt.correct{border-color:var(--emerald);background:#e3f6e3}
+  button.opt.wrong{border-color:var(--rust);background:#f9e6e0}
+  button.opt:disabled{cursor:default}
+  .seg{display:inline-flex;background:var(--mist);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+  .seg button{border:none;background:transparent;padding:7px 13px;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--muted)}
+  .seg button.on{background:#fff;color:var(--emerald-ink);box-shadow:var(--shadow-sm)}
+  table.mtx{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.mtx th{text-align:left;color:var(--emerald-deep);font-weight:700;padding:6px 8px;border-bottom:2px solid var(--line);position:sticky;top:0;background:var(--card)}
+  table.mtx td{padding:5px 8px;border-bottom:1px solid #e9f3e7;vertical-align:top}
+  table.mtx td.num{text-align:center;font-family:var(--mono);width:42px}
+  table.mtx tr:hover td{background:var(--paper)}
+  .scrolly{overflow:auto;height:100%}
+  .scrolly::-webkit-scrollbar{width:9px}
+  .scrolly::-webkit-scrollbar-thumb{background:var(--mist-2);border-radius:9px}
+  .slider{width:100%;-webkit-appearance:none;height:6px;border-radius:6px;background:var(--mist-2);outline:none}
+  .slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--emerald);cursor:pointer;border:3px solid #fff;box-shadow:var(--shadow-sm)}
+  .slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--emerald);cursor:pointer;border:3px solid #fff}
+  .ctl{margin-bottom:12px}
+  .ctl .lab{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
+  .ctl .lab span{font-family:var(--mono);color:var(--emerald-deep)}
+  .readout{font-family:var(--mono);font-size:13px;color:var(--emerald-ink);background:var(--mist);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .verdict{font-weight:700;color:var(--emerald-deep)}
+  .note{font-size:12px;color:var(--muted);font-style:italic}
+  .grid2{display:flex;gap:14px;flex-wrap:wrap}
+  .quad{flex:1 1 46%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+  .quad h4{font-size:14px;color:var(--emerald-deep);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .tag-off{background:#dff3df;color:#0a6b16;border:1px solid #bfe3bf}
+  .tag-def{background:#f7e2db;color:#8a3320;border:1px solid #e7c0b5}
+  .tagm{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .svg-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px}
+  svg{display:block}
+  .checklist{list-style:none}
+  .checklist li{position:relative;padding-left:30px;font-size:15px;line-height:1.5;margin:9px 0}
+  .checklist li::before{content:"✓";position:absolute;left:0;top:-1px;color:#fff;background:var(--emerald);width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-size:13px;font-weight:700}
+  .titlewrap{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .deckmark{position:absolute;right:46px;top:40px;width:128px;height:128px}
+  .credit{font-size:13px;color:var(--muted)}
+  .pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .kbd{font-family:var(--mono);font-size:11px;background:var(--mist);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--emerald-ink)}
+  #nav{position:absolute;left:0;right:0;bottom:0;height:52px;display:flex;align-items:center;gap:14px;padding:0 20px;background:linear-gradient(0deg,#ffffff,rgba(255,255,255,.85));border-top:1px solid var(--line);z-index:50}
+  #nav .brand{font-family:var(--serif);font-weight:700;color:var(--emerald-ink);font-size:14px}
+  #nav .brand b{color:var(--emerald)}
+  #nav .spacer{flex:1}
+  #nav select{font-family:var(--sans);font-size:12.5px;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:#fff;color:var(--ink);max-width:340px}
+  #nav .count{font-family:var(--mono);font-size:12.5px;color:var(--muted);min-width:64px;text-align:center}
+  #nav button{border:1px solid var(--line);background:var(--mist);color:var(--emerald-ink);width:38px;height:34px;border-radius:9px;cursor:pointer;font-size:16px;font-weight:700}
+  #nav button:hover{background:var(--mist-2)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="progress"></div>
+
+    <!-- 1 TITLE -->
+    <section class="slide active">
+      <svg class="deckmark" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="56" fill="none" stroke="#028A0F" stroke-width="2.5" opacity="0.35"/>
+        <circle cx="60" cy="60" r="44" fill="#028A0F"/>
+        <text x="60" y="55" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#fff">12</text>
+        <text x="60" y="78" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" letter-spacing="2" fill="#cdeccb">MGMT 497</text>
+      </svg>
+      <div class="titlewrap">
+        <div class="eyebrow"><span class="tick"></span>Strategic Management · Chapter 6 · Strategy Analysis &amp; Choice</div>
+        <h1 class="title" style="font-size:52px;max-width:980px">SWOT &amp; SOWT Analysis<br>for the Coca&#8209;Cola Company</h1>
+        <div class="rule" style="width:120px"></div>
+        <p class="sub" style="font-size:19px">Assignment 12 — building offensive (SO, ST) and defensive (WO, WT) strategies from a fixed IFE/EFE foundation, then classifying each by strategy type. A live, click-to-run deck: every tool inside runs in the slide — no coding required.</p>
+        <div class="pill-row" style="margin-top:22px">
+          <span class="chip">EFE 3.12</span>
+          <span class="chip">IFE 2.88</span>
+          <span class="chip gold">8+ specific strategies</span>
+          <span class="chip">12 interactive tools</span>
+          <span class="chip">IE &#8594; Grow &amp; Build</span>
+        </div>
+        <p class="credit" style="margin-top:26px">St. Cloud State University · MGMT 497 Strategic Management · Cohesion Case: Coca&#8209;Cola Company, 2018 (Fred R. David)</p>
+      </div>
+    </section>
+
+    <!-- 2 HOW TO USE -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Start here</div>
+      <h2 class="title">How to use this deck</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col card">
+            <h4 style="color:var(--emerald-deep);margin-bottom:10px;font-size:16px">Moving around</h4>
+            <ul class="bul">
+              <li>Use the <b>&#9664; / &#9654; buttons</b> at the bottom, or press the <span class="kbd">&#8592;</span> <span class="kbd">&#8594;</span> arrow keys.</li>
+              <li>Jump to any section with the <b>drop-down menu</b> in the bottom bar.</li>
+              <li>The <b>green bar</b> at the very top shows how far you are through the deck.</li>
+            </ul>
+          </div>
+          <div class="col card">
+            <h4 style="color:var(--emerald-deep);margin-bottom:10px;font-size:16px">The live tools</h4>
+            <ul class="bul">
+              <li>Slides marked <span class="chip">LIVE TOOL</span> contain working software you operate by <b>tapping, sliding, and clicking</b>.</li>
+              <li>No code is shown and <b>none is needed</b> — every tool is point-and-click.</li>
+              <li>Calculators update <b>instantly</b> as you change inputs, so you can experiment freely.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel" style="display:flex;align-items:center;gap:16px">
+          <span class="chip gold">Tip</span>
+          <span style="font-size:15px">Try the calculators yourself — move a slider on the SPACE, IE, or QSPM tools and watch Coca-Cola's strategic position change in real time.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 ROADMAP -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Roadmap</div>
+      <h2 class="title">What we'll cover</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="grid2">
+          <div class="quad">
+            <h4><span class="chip">Part 1</span> A common starting line</h4>
+            <p style="font-size:14.5px;color:var(--ink);line-height:1.5">Reload the class-supplied IFE and EFE for Coca-Cola so every student builds on identical inputs — <b>EFE 3.12</b>, <b>IFE 2.88</b>.</p>
+          </div>
+          <div class="quad">
+            <h4><span class="chip">Part 2</span> The SWOT matrix</h4>
+            <p style="font-size:14.5px;color:var(--ink);line-height:1.5">Match strengths, weaknesses, opportunities and threats into <b>8 specific strategies</b> — two each for SO, ST, WO, WT.</p>
+          </div>
+          <div class="quad">
+            <h4><span class="chip">Part 3</span> Classify the strategies</h4>
+            <p style="font-size:14.5px;color:var(--ink);line-height:1.5">Map every strategy to one of the <b>11 strategy types</b> — forward integration, market development, diversification, and the rest.</p>
+          </div>
+          <div class="quad">
+            <h4><span class="chip gold">Beyond SWOT</span> The full toolkit</h4>
+            <p style="font-size:14.5px;color:var(--ink);line-height:1.5">Chapter 6 in full — the <b>SPACE, BCG, IE, Grand Strategy</b> matrices and the <b>QSPM</b>, each with a live calculator.</p>
+          </div>
+        </div>
+        <div class="panel"><span class="note">All five matching tools (SWOT · SPACE · BCG · IE · Grand) feed the single decision tool, the QSPM — the three-stage framework you'll meet on the next slides.</span></div>
+      </div>
+    </section>
+
+    <!-- 4 CHAPTER INTRO -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Chapter 6 · The big idea</div>
+      <h2 class="title">Strategy analysis &amp; choice</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p class="sub" style="margin-top:0">This stage turns the homework of earlier chapters — the audits, the matrices — into <b>action</b>. It generates feasible alternative strategies, evaluates them, and selects the ones the firm should actually pursue.</p>
+            <ul class="bul" style="margin-top:16px">
+              <li>It is <b>subjective decisions built on objective information</b> — judgement guided by numbers, not guesswork.</li>
+              <li>Strategies "don't come out of the blue" — they grow from the firm's <b>vision, mission, audits, and past wins</b>.</li>
+              <li>Unless the EFE/CPM/IFE scores are very low, good alternatives are usually <b>incremental moves</b> toward a better position.</li>
+            </ul>
+          </div>
+          <div class="col card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+            <div class="chip" style="margin-bottom:14px">Rudin's Law</div>
+            <p style="font-family:var(--serif);font-size:22px;line-height:1.35;color:var(--emerald-ink);max-width:300px">"When a crisis forces choosing among alternatives, most people choose the worst possible one."</p>
+            <p class="note" style="margin-top:14px;max-width:300px">A structured framework exists precisely to keep choice from collapsing into panic or politics.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 MODEL -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Where this fits · Figure 6-1</div>
+      <h2 class="title">The comprehensive strategic-management model</h2>
+      <div class="rule"></div>
+      <div class="body" style="justify-content:center">
+        <svg viewBox="0 0 1140 360" style="width:100%;max-height:420px">
+          <text x="240" y="22" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" letter-spacing="3" fill="#015C0A" font-weight="700">STRATEGY FORMULATION</text>
+          <text x="720" y="22" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" letter-spacing="3" fill="#7a8c7b" font-weight="700">IMPLEMENTATION</text>
+          <text x="1040" y="22" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" letter-spacing="3" fill="#7a8c7b" font-weight="700">EVALUATION</text>
+          <g font-family="system-ui" font-size="12.5" fill="#fff" text-anchor="middle">
+            <g><rect x="20" y="120" width="120" height="120" rx="12" fill="#7a8c7b"/><text x="80" y="170">Vision &amp;</text><text x="80" y="188">Mission</text><text x="80" y="206" font-size="10">Ch 2</text></g>
+            <g><rect x="160" y="40" width="120" height="120" rx="12" fill="#7a8c7b"/><text x="220" y="90">External</text><text x="220" y="108">Assessment</text><text x="220" y="126" font-size="10">Ch 3</text></g>
+            <g><rect x="160" y="200" width="120" height="120" rx="12" fill="#7a8c7b"/><text x="220" y="250">Internal</text><text x="220" y="268">Assessment</text><text x="220" y="286" font-size="10">Ch 4</text></g>
+            <g><rect x="300" y="120" width="120" height="120" rx="12" fill="#7a8c7b"/><text x="360" y="170">Strategies</text><text x="360" y="188">in Action</text><text x="360" y="206" font-size="10">Ch 5</text></g>
+            <g><rect x="440" y="120" width="140" height="120" rx="12" fill="#028A0F" stroke="#B7E22A" stroke-width="3"/><text x="510" y="164" font-weight="700">Strategy</text><text x="510" y="182" font-weight="700">Analysis &amp;</text><text x="510" y="200" font-weight="700">Choice</text><text x="510" y="220" font-size="10" fill="#cdeccb">CHAPTER 6 — YOU ARE HERE</text></g>
+            <g><rect x="640" y="120" width="120" height="120" rx="12" fill="#9aa99b"/><text x="700" y="170">Implement:</text><text x="700" y="188">Mgmt &amp; Mktg</text><text x="700" y="206" font-size="10">Ch 7</text></g>
+            <g><rect x="780" y="120" width="120" height="120" rx="12" fill="#9aa99b"/><text x="840" y="170">Implement:</text><text x="840" y="188">Fin &amp; Acct</text><text x="840" y="206" font-size="10">Ch 8</text></g>
+            <g><rect x="920" y="120" width="140" height="120" rx="12" fill="#9aa99b"/><text x="990" y="170">Evaluation &amp;</text><text x="990" y="188">Governance</text><text x="990" y="206" font-size="10">Ch 9</text></g>
+          </g>
+          <line x1="140" y1="180" x2="160" y2="120" stroke="#bcd" stroke-width="2"/>
+          <line x1="140" y1="180" x2="160" y2="240" stroke="#bcd" stroke-width="2"/>
+          <line x1="420" y1="180" x2="440" y2="180" stroke="#028A0F" stroke-width="3"/>
+          <line x1="580" y1="180" x2="640" y2="180" stroke="#bcd" stroke-width="2"/>
+          <line x1="900" y1="180" x2="920" y2="180" stroke="#bcd" stroke-width="2"/>
+        </svg>
+        <p class="note" style="text-align:center">Chapter 6 sits at the hinge of the model: it consumes the external and internal audits and produces the strategies the rest of the firm will implement.</p>
+      </div>
+    </section>
+
+    <!-- 6 FRAMEWORK EXPLORER (TOOL 1) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Figure 6-2 · Interactive</div>
+      <h2 class="title">The three-stage analytical framework</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 01</span><span class="name">Framework Explorer</span><span class="how">&#9656; Tap a stage to see its tools</span></div>
+          <div class="tool-body" style="flex-direction:column">
+            <div style="display:flex;gap:14px">
+              <button class="btn fw-btn on" data-fw="1" onclick="fwShow(1)">Stage 1 · Input</button>
+              <button class="btn fw-btn" data-fw="2" onclick="fwShow(2)">Stage 2 · Matching</button>
+              <button class="btn fw-btn" data-fw="3" onclick="fwShow(3)">Stage 3 · Decision</button>
+            </div>
+            <div id="fw-detail" style="flex:1;margin-top:14px"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 STAGE 1 -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Stage 1</div>
+      <h2 class="title">The input stage — quantifying subjectivity</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <p class="sub" style="margin-top:0">Three matrices summarise the basic information needed to formulate strategy. They force strategists to put numbers on judgement <em>before</em> generating alternatives.</p>
+        <div class="stat-row" style="margin-top:8px">
+          <div class="stat"><div class="n">EFE</div><div class="l">External Factor Evaluation — opportunities &amp; threats outside the firm</div></div>
+          <div class="stat"><div class="n">IFE</div><div class="l">Internal Factor Evaluation — the firm's own strengths &amp; weaknesses</div></div>
+          <div class="stat"><div class="n">CPM</div><div class="l">Competitive Profile Matrix — the firm scored against its rivals</div></div>
+        </div>
+        <div class="panel" style="margin-top:6px"><span class="chip gold">Why it matters</span> <span style="font-size:15px">A rating of <b>3 is 50% larger than a 2</b> — small weighting and rating choices compound into big strategic differences. This is why we lock a single shared IFE/EFE for Part 1.</span></div>
+      </div>
+    </section>
+
+    <!-- 8 READING EFE/IFE -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Refresher</div>
+      <h2 class="title">Reading an EFE / IFE matrix</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col card">
+            <h4 style="color:var(--emerald-deep);margin-bottom:10px">The four columns</h4>
+            <ul class="bul tight">
+              <li><b>Factor</b> — a specific, quantified external or internal item.</li>
+              <li><b>Weight (0–1)</b> — how important that factor is to success. All weights sum to <b>1.00</b>.</li>
+              <li><b>Rating (1–4)</b> — how well the firm currently responds (EFE) or how strong it is (IFE).</li>
+              <li><b>Weighted score</b> — weight &#215; rating.</li>
+            </ul>
+          </div>
+          <div class="col card">
+            <h4 style="color:var(--emerald-deep);margin-bottom:10px">The total score</h4>
+            <ul class="bul tight">
+              <li>Add every weighted score &#8594; a total between <b>1.0 and 4.0</b>.</li>
+              <li><b>2.5</b> is the average mark.</li>
+              <li>Above 2.5 &#8594; the firm responds <b>well</b> to its situation.</li>
+              <li>Below 2.5 &#8594; the firm is <b>struggling</b> to respond.</li>
+            </ul>
+            <div class="readout" style="margin-top:12px">Coca-Cola &#8594; EFE <b>3.12</b> and IFE <b>2.88</b> — both above the 2.5 line.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 SCALE -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Refresher · the 1–4 scale</div>
+      <h2 class="title">What the ratings say</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="grid2">
+          <div class="quad"><h4><span class="chip o">EFE — response to external factors</span></h4>
+            <ul class="bul tight" style="margin-top:8px">
+              <li><b>4</b> = superior response &nbsp; <b>3</b> = above average</li>
+              <li><b>2</b> = average &nbsp; <b>1</b> = poor response</li>
+              <li>Applies to <em>both</em> opportunities and threats.</li>
+            </ul>
+          </div>
+          <div class="quad"><h4><span class="chip s">IFE — internal capability</span></h4>
+            <ul class="bul tight" style="margin-top:8px">
+              <li><b>4</b> = major strength &nbsp; <b>3</b> = minor strength</li>
+              <li><b>2</b> = minor weakness &nbsp; <b>1</b> = major weakness</li>
+              <li>Strengths must rate 3–4; weaknesses must rate 1–2.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel"><span class="chip gold">AQCD test</span> <span style="font-size:14.5px">Good factors are <b>A</b>ctionable, <b>Q</b>uantitative, <b>C</b>omparative, and <b>D</b>ivisional. Notice every Coca-Cola factor carries a number, percent, or dollar figure.</span></div>
+      </div>
+    </section>
+
+    <!-- 10 PART 1 -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Assignment 12 · Part 1</div>
+      <h2 class="title">A level starting line for everyone</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p class="sub" style="margin-top:0">The template auto-copies your IFE/EFE straight into its SWOT section. Part 1 asks you to <b>replace your own matrices with the instructor's supplied Coca-Cola IFE/EFE</b> so the whole class builds this half of the course from identical numbers.</p>
+            <ul class="bul" style="margin-top:14px">
+              <li>Open the strategic-planning template and <b>re-enter the supplied IFE and EFE</b> — not the ones you built earlier.</li>
+              <li>This populates the SWOT factor cells automatically.</li>
+              <li>Everyone now matches from the <b>same strengths, weaknesses, opportunities and threats</b>.</li>
+            </ul>
+          </div>
+          <div class="col card" style="display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center">
+            <div>
+              <div class="kpi big">3.12</div>
+              <div class="note">EFE total · responds well to external forces</div>
+            </div>
+            <div style="height:1px;background:var(--line)"></div>
+            <div>
+              <div class="kpi big">2.88</div>
+              <div class="note">IFE total · slightly stronger than average internally</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 EFE OPP -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Supplied data · External</div>
+      <h2 class="title">Coca-Cola EFE — Opportunities</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="card" style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+          <div class="scrolly" id="efe-opp-tbl"></div>
+        </div>
+        <div class="readout">Opportunities contribute <b>1.46</b> of the EFE total. Asia-Pacific and Africa growth carry the highest ratings (4) — Coca-Cola is well positioned to exploit them.</div>
+      </div>
+    </section>
+
+    <!-- 12 EFE THR -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Supplied data · External</div>
+      <h2 class="title">Coca-Cola EFE — Threats &amp; total</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="card" style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+          <div class="scrolly" id="efe-thr-tbl"></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1.46</div><div class="l">from opportunities</div></div>
+          <div class="stat"><div class="n">1.66</div><div class="l">from threats</div></div>
+          <div class="stat" style="background:var(--emerald);color:#fff;border-color:var(--emerald)"><div class="n" style="color:#fff">3.12</div><div class="l" style="color:#dff3df">Total EFE score · weights = 1.00</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 IFE STR -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Supplied data · Internal</div>
+      <h2 class="title">Coca-Cola IFE — Strengths</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="card" style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+          <div class="scrolly" id="ife-str-tbl"></div>
+        </div>
+        <div class="readout">Strengths contribute <b>1.79</b> of the IFE total. Restaurant dominance, Dasani, Monster, and 200-country reach all rate a major-strength 4.</div>
+      </div>
+    </section>
+
+    <!-- 14 IFE WK -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Supplied data · Internal</div>
+      <h2 class="title">Coca-Cola IFE — Weaknesses &amp; total</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="card" style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+          <div class="scrolly" id="ife-wk-tbl"></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1.79</div><div class="l">from strengths</div></div>
+          <div class="stat"><div class="n">1.09</div><div class="l">from weaknesses</div></div>
+          <div class="stat" style="background:var(--emerald);color:#fff;border-color:var(--emerald)"><div class="n" style="color:#fff">2.88</div><div class="l" style="color:#dff3df">Total IFE score · weights = 1.00</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 GAUGE (TOOL 2) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool</div>
+      <h2 class="title">Input-score gauge</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 02</span><span class="name">EFE &amp; IFE Score Gauge</span><span class="how">&#9656; Switch matrix · tap a row for its contribution</span></div>
+          <div class="tool-body">
+            <div style="width:340px;display:flex;flex-direction:column;align-items:center;gap:10px">
+              <div class="seg"><button id="g-efe" class="on" onclick="gaugeSet('efe')">EFE (external)</button><button id="g-ife" onclick="gaugeSet('ife')">IFE (internal)</button></div>
+              <svg id="gauge-svg" viewBox="0 0 300 200" style="width:300px"></svg>
+              <div id="gauge-read" class="readout" style="width:100%;text-align:center"></div>
+            </div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+              <div class="scrolly" id="gauge-tbl" style="flex:1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16 STAGE 2 -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Stage 2</div>
+      <h2 class="title">The matching stage</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <p class="sub" style="margin-top:0">Strategy is the <b>match</b> a firm makes between its internal resources and its external situation. Five tools take Stage-1 inputs and align them into feasible alternatives — usable in any order.</p>
+        <div class="grid2" style="margin-top:8px">
+          <div class="quad"><h4><span class="chip">SWOT</span></h4><p style="font-size:13.5px;color:var(--ink)">Pairs S·W·O·T into SO/WO/ST/WT strategies. <b>The focus of this assignment.</b></p></div>
+          <div class="quad"><h4><span class="chip">SPACE</span></h4><p style="font-size:13.5px;color:var(--ink)">Aggressive, conservative, defensive, or competitive posture.</p></div>
+          <div class="quad"><h4><span class="chip">BCG</span></h4><p style="font-size:13.5px;color:var(--ink)">Stars, cash cows, question marks, dogs across divisions.</p></div>
+          <div class="quad"><h4><span class="chip">IE</span></h4><p style="font-size:13.5px;color:var(--ink)">Nine-cell grid from IFE &#215; EFE &#8594; grow / hold / harvest.</p></div>
+        </div>
+        <div class="panel"><span class="chip gold">Plus</span> <span style="font-size:14.5px">The <b>Grand Strategy Matrix</b> — competitive position &#215; market growth — rounds out the five.</span></div>
+      </div>
+    </section>
+
+    <!-- 17 SWOT CONCEPT -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>The matching tool of record</div>
+      <h2 class="title">The SWOT matrix</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p class="sub" style="margin-top:0">SWOT is the most widely used strategy tool because it is simple and sparks discussion. Its job is to <b>generate a list of feasible strategies</b> — not to pick the winner.</p>
+            <ul class="bul" style="margin-top:14px">
+              <li>A nine-cell grid: four <b>factor cells</b> (S, W, O, T), four <b>strategy cells</b> (SO, WO, ST, WT), and one cell always left blank.</li>
+              <li>You build the factor cells first, then <b>match</b> across them to write strategies.</li>
+              <li>Each strategy carries a <b>notation</b> such as <span class="chip">S1, O2</span> showing exactly which factors were combined.</li>
+            </ul>
+          </div>
+          <div class="col card" style="padding:14px">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:center">
+              <tr><td style="border:1px solid var(--line);background:#eef6ec;color:#9bbf97">— blank —</td><td style="border:1px solid var(--line);background:#dff3df;font-weight:700;color:#0a6b16">Strengths (S)</td><td style="border:1px solid var(--line);background:#f7e2db;font-weight:700;color:#8a3320">Weaknesses (W)</td></tr>
+              <tr><td style="border:1px solid var(--line);background:#dfeefb;font-weight:700;color:#1a5a8a">Opportunities (O)</td><td style="border:1px solid var(--line);background:#fff;padding:14px"><b style="color:#0a6b16">SO</b><br><span style="font-size:11px;color:var(--muted)">use strengths to seize opportunities</span></td><td style="border:1px solid var(--line);background:#fff;padding:14px"><b style="color:#1a5a8a">WO</b><br><span style="font-size:11px;color:var(--muted)">fix weaknesses via opportunities</span></td></tr>
+              <tr><td style="border:1px solid var(--line);background:#fbf1d4;font-weight:700;color:#8a6b14">Threats (T)</td><td style="border:1px solid var(--line);background:#fff;padding:14px"><b style="color:#8a6b14">ST</b><br><span style="font-size:11px;color:var(--muted)">use strengths to dodge threats</span></td><td style="border:1px solid var(--line);background:#fff;padding:14px"><b style="color:#8a3320">WT</b><br><span style="font-size:11px;color:var(--muted)">defensive: reduce weakness &amp; threat</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 18 FOUR TYPES -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>The four quadrants</div>
+      <h2 class="title">SO · WO · ST · WT</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="grid2">
+          <div class="quad" style="border-left:4px solid var(--emerald)"><h4><span class="tagm tag-off">SO · Offensive</span></h4><p style="font-size:14px;line-height:1.5">Use internal <b>strengths</b> to take advantage of external <b>opportunities</b>. The ideal position — play to what you're great at.</p></div>
+          <div class="quad" style="border-left:4px solid #1a5a8a"><h4><span class="tagm" style="background:#dfeefb;color:#1a5a8a;border:1px solid #b9d6ee">WO · Improving</span></h4><p style="font-size:14px;line-height:1.5">Overcome internal <b>weaknesses</b> by seizing external <b>opportunities</b> — e.g. build a missing capability the market now rewards.</p></div>
+          <div class="quad" style="border-left:4px solid var(--gold)"><h4><span class="tagm" style="background:#fbf1d4;color:#8a6b14;border:1px solid #ecd9a3">ST · Defending</span></h4><p style="font-size:14px;line-height:1.5">Use internal <b>strengths</b> to avoid or reduce external <b>threats</b> — e.g. a strong legal team fighting patent infringers.</p></div>
+          <div class="quad" style="border-left:4px solid var(--rust)"><h4><span class="tagm tag-def">WT · Survival</span></h4><p style="font-size:14px;line-height:1.5">Defensive moves that reduce internal <b>weakness</b> while avoiding external <b>threats</b> — retrench, divest, or exit.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 19 OFFENSE/DEFENSE -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>The assignment's framing</div>
+      <h2 class="title">Offense and defense — at the same time</h2>
+      <div class="rule"></div>
+      <div class="body" style="justify-content:center">
+        <div class="cols">
+          <div class="col card" style="border-top:5px solid var(--emerald);text-align:center;padding:26px">
+            <span class="tagm tag-off" style="font-size:13px">OFFENSE</span>
+            <h3 style="font-family:var(--serif);font-size:26px;color:var(--emerald-ink);margin:14px 0 8px">SO &amp; ST</h3>
+            <p style="font-size:14.5px;color:var(--ink);line-height:1.5">Built on <b>strengths</b>. SO chases growth; ST protects the lead. These are how Coca-Cola presses its advantages.</p>
+          </div>
+          <div class="col card" style="border-top:5px solid var(--rust);text-align:center;padding:26px">
+            <span class="tagm tag-def" style="font-size:13px">DEFENSE</span>
+            <h3 style="font-family:var(--serif);font-size:26px;color:#8a3320;margin:14px 0 8px">WO &amp; WT</h3>
+            <p style="font-size:14.5px;color:var(--ink);line-height:1.5">Built on closing <b>weaknesses</b>. WO upgrades the firm; WT shores up survival. These are how Coca-Cola covers its gaps.</p>
+          </div>
+        </div>
+        <div class="panel" style="text-align:center;margin-top:8px"><span style="font-size:15px;font-family:var(--serif);color:var(--emerald-ink)">"A company must do both at the same time." — and that is exactly what an 8-strategy SWOT delivers.</span></div>
+      </div>
+    </section>
+
+    <!-- 20 8-STEP -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Method · eight steps</div>
+      <h2 class="title">Building the matrix, step by step</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <ul class="bul tight">
+              <li><b>1.</b> List key internal <b>strengths</b>.</li>
+              <li><b>2.</b> List key internal <b>weaknesses</b>.</li>
+              <li><b>3.</b> List key external <b>opportunities</b>.</li>
+              <li><b>4.</b> List key external <b>threats</b>.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <ul class="bul tight">
+              <li><b>5.</b> Match S &#215; O &#8594; write <b>SO</b> strategies.</li>
+              <li><b>6.</b> Match W &#215; O &#8594; write <b>WO</b> strategies.</li>
+              <li><b>7.</b> Match S &#215; T &#8594; write <b>ST</b> strategies.</li>
+              <li><b>8.</b> Match W &#215; T &#8594; write <b>WT</b> strategies.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel"><span class="chip gold">Rule of thumb</span> <span style="font-size:14.5px">Aim for <b>~4 strategies per quadrant</b> (&#8776;16 total) to cover the whole business. Assignment 12 requires at least <b>two per quadrant — eight minimum</b>.</span></div>
+      </div>
+    </section>
+
+    <!-- 21 SPECIFICITY -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>The golden rule</div>
+      <h2 class="title">Specificity is everything</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <p class="sub" style="margin-top:0">The test: <b>"Could I estimate the cost or savings of this strategy?"</b> If not, it's too vague. Whenever you'd write <em>expand, increase, grow, more, reduce</em> — attach a number.</p>
+        <div class="cols" style="margin-top:6px">
+          <div class="col card" style="border-left:4px solid var(--rust)">
+            <h4 style="color:#8a3320;margin-bottom:10px">&#10007; Too vague</h4>
+            <ul class="bul tight">
+              <li>"Forward integration" <span class="note">(that's a strategy <em>type</em>, not a strategy)</span></li>
+              <li>"Do more R&amp;D"</li>
+              <li>"Expand globally"</li>
+              <li>"Add repair staff"</li>
+            </ul>
+          </div>
+          <div class="col card" style="border-left:4px solid var(--emerald)">
+            <h4 style="color:var(--emerald-deep);margin-bottom:10px">&#10003; Specific &amp; costable</h4>
+            <ul class="bul tight">
+              <li>"Sign 5-year exclusive fountain contracts with the top 30 US chains"</li>
+              <li>"Invest $50M in 3 new Honest Tea flavors"</li>
+              <li>"Build 2 bottling plants in India &amp; Vietnam (~$80M)"</li>
+              <li>"Open 200 new stores at 10K sq ft each"</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 22 FIGURE 6-3 -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Textbook model · Figure 6-3</div>
+      <h2 class="title">The retail-store example — our template</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <p class="sub" style="margin-top:0">The textbook's computer-store SWOT shows the pattern we'll follow for Coca-Cola: every strategy is concrete and tagged with its source factors.</p>
+        <div class="grid2" style="margin-top:6px">
+          <div class="quad"><h4><span class="tagm tag-off">SO example</span></h4><p style="font-size:13.5px;line-height:1.5">"Add 4 new in-store promotions monthly" &nbsp;<span class="chip s">S4, O3</span> — uses a promotions strength to ride rising foot traffic.</p></div>
+          <div class="quad"><h4><span class="tagm" style="background:#dfeefb;color:#1a5a8a">WO example</span></h4><p style="font-size:13.5px;line-height:1.5">"Increase website services by 50%" &nbsp;<span class="chip o">W6, O7, O8</span> — fixes a no-website weakness as demand for sites rises.</p></div>
+          <div class="quad"><h4><span class="tagm" style="background:#fbf1d4;color:#8a6b14">ST example</span></h4><p style="font-size:13.5px;line-height:1.5">"Hire 2 repair persons; market the service" &nbsp;<span class="chip gold">S6, S7, T1</span> — a service strength blunts a Best Buy threat.</p></div>
+          <div class="quad"><h4><span class="tagm tag-def">WT example</span></h4><p style="font-size:13.5px;line-height:1.5">"Hire 2 new cashiers" &nbsp;<span class="chip w">W8, T1, T4</span> — defensive fix for slow checkout against new rivals.</p></div>
+        </div>
+        <p class="note">Notice the numbers (4 promotions, 50%, 2 persons) — that's what makes each line costable.</p>
+      </div>
+    </section>
+
+    <!-- 23 SWOT BUILDER (TOOL 3) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool · Part 2</div>
+      <h2 class="title">Coca-Cola SWOT builder</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 03</span><span class="name">SWOT Matrix Builder — Coca-Cola</span><span class="how">&#9656; Pick a quadrant to reveal its matched strategies</span></div>
+          <div class="tool-body" style="flex-direction:column;gap:12px">
+            <div style="display:flex;gap:10px">
+              <button class="btn sw-btn on" data-sw="SO" onclick="swShow('SO')">SO · Offensive</button>
+              <button class="btn sw-btn" data-sw="ST" onclick="swShow('ST')">ST · Offensive</button>
+              <button class="btn sw-btn" data-sw="WO" onclick="swShow('WO')">WO · Defensive</button>
+              <button class="btn sw-btn" data-sw="WT" onclick="swShow('WT')">WT · Defensive</button>
+            </div>
+            <div id="sw-out" style="flex:1;display:flex;gap:14px;min-height:0"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 24 SWOT MATCHER (TOOL 4) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool · practice</div>
+      <h2 class="title">SWOT strategy matcher</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 04</span><span class="name">Which quadrant is this strategy?</span><span class="how" id="m4-score">Score 0 / 0</span></div>
+          <div class="tool-body" style="flex-direction:column">
+            <div id="m4-q" style="font-size:17px;color:var(--emerald-ink);font-weight:600;line-height:1.5;min-height:54px"></div>
+            <div id="m4-opts" style="display:flex;gap:10px;margin-top:8px"></div>
+            <div id="m4-fb" class="readout" style="margin-top:14px;display:none"></div>
+            <div style="margin-top:auto;display:flex;justify-content:flex-end"><button class="btn solid" id="m4-next" onclick="m4Next()">Next &#9656;</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 25 SO -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Part 2 deliverable</div>
+      <h2 class="title">Our SO strategies <span class="tagm tag-off" style="font-size:12px;vertical-align:middle">Offensive</span></h2>
+      <div class="rule"></div>
+      <div class="body" id="so-slide"></div>
+    </section>
+
+    <!-- 26 ST -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Part 2 deliverable</div>
+      <h2 class="title">Our ST strategies <span class="tagm" style="background:#fbf1d4;color:#8a6b14;font-size:12px;vertical-align:middle">Offensive defense</span></h2>
+      <div class="rule"></div>
+      <div class="body" id="st-slide"></div>
+    </section>
+
+    <!-- 27 WO -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Part 2 deliverable</div>
+      <h2 class="title">Our WO strategies <span class="tagm" style="background:#dfeefb;color:#1a5a8a;font-size:12px;vertical-align:middle">Defensive</span></h2>
+      <div class="rule"></div>
+      <div class="body" id="wo-slide"></div>
+    </section>
+
+    <!-- 28 WT -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Part 2 deliverable</div>
+      <h2 class="title">Our WT strategies <span class="tagm tag-def" style="font-size:12px;vertical-align:middle">Defensive</span></h2>
+      <div class="rule"></div>
+      <div class="body" id="wt-slide"></div>
+    </section>
+
+    <!-- 29 STRATEGY EXPLORER (TOOL 5) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool</div>
+      <h2 class="title">Strategy explorer</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 05</span><span class="name">All 8 strategies — full detail</span><span class="how">&#9656; Click any strategy to expand its rationale, factors &amp; cost</span></div>
+          <div class="tool-body">
+            <div style="width:300px;display:flex;flex-direction:column;gap:8px" id="se-list"></div>
+            <div style="flex:1;min-width:0" id="se-detail" class="panel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 30 11 TYPES -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Assignment 12 · Part 3</div>
+      <h2 class="title">The 11 strategy types</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p style="font-weight:700;color:var(--emerald-deep);margin-bottom:8px;font-size:14px">Integration</p>
+            <ul class="bul tight">
+              <li><b>Forward integration</b> — control distributors/retailers</li>
+              <li><b>Backward integration</b> — control suppliers</li>
+              <li><b>Horizontal integration</b> — acquire competitors</li>
+            </ul>
+            <p style="font-weight:700;color:var(--emerald-deep);margin:12px 0 8px;font-size:14px">Intensive</p>
+            <ul class="bul tight">
+              <li><b>Market penetration</b> — more share, current products/markets</li>
+              <li><b>Market development</b> — new geographic markets</li>
+              <li><b>Product development</b> — new/improved products</li>
+            </ul>
+          </div>
+          <div class="col">
+            <p style="font-weight:700;color:var(--emerald-deep);margin-bottom:8px;font-size:14px">Diversification</p>
+            <ul class="bul tight">
+              <li><b>Related diversification</b> — new, connected businesses</li>
+              <li><b>Unrelated diversification</b> — new, unconnected businesses</li>
+            </ul>
+            <p style="font-weight:700;color:#8a3320;margin:12px 0 8px;font-size:14px">Defensive</p>
+            <ul class="bul tight">
+              <li><b>Retrenchment</b> — regroup via cost/asset cuts</li>
+              <li><b>Divestiture</b> — sell a division or segment</li>
+              <li><b>Liquidation</b> — sell all assets, close down</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">Part 3 asks you to map each Part-2 strategy to one of these — and blanks are fine where no strategy fits a type.</p>
+      </div>
+    </section>
+
+    <!-- 31 PART 3 MAPPING -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Part 3 deliverable</div>
+      <h2 class="title">Strategy-to-type mapping</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="card" style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+          <div class="scrolly" id="type-map-tbl"></div>
+        </div>
+        <p class="note">Several types stay blank (horizontal integration, unrelated diversification, liquidation) — Coca-Cola's situation didn't generate a strategy there, which the assignment expressly allows.</p>
+      </div>
+    </section>
+
+    <!-- 32 TYPE CLASSIFIER (TOOL 6) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool · Part 3 practice</div>
+      <h2 class="title">Strategy-type classifier</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 06</span><span class="name">Name that strategy type</span><span class="how" id="c6-score">Score 0 / 0</span></div>
+          <div class="tool-body" style="flex-direction:column">
+            <div id="c6-q" style="font-size:16px;color:var(--emerald-ink);font-weight:600;line-height:1.5;min-height:50px"></div>
+            <div id="c6-opts" style="display:flex;flex-wrap:wrap;gap:9px;margin-top:8px"></div>
+            <div id="c6-fb" class="readout" style="margin-top:12px;display:none"></div>
+            <div style="margin-top:auto;display:flex;justify-content:flex-end"><button class="btn solid" id="c6-next" onclick="c6Next()">Next &#9656;</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 33 SPACE CONCEPT -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Matching tool · Figure 6-4</div>
+      <h2 class="title">The SPACE matrix</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p class="sub" style="margin-top:0">Two axes, four quadrants — telling a firm whether to be <b>aggressive, conservative, defensive, or competitive</b>.</p>
+            <ul class="bul" style="margin-top:12px">
+              <li><b>FP</b> — Financial Position (internal, +1 to +7)</li>
+              <li><b>CP</b> — Competitive Position (internal, &#8722;1 to &#8722;7)</li>
+              <li><b>SP</b> — Stability Position (external, &#8722;1 to &#8722;7)</li>
+              <li><b>IP</b> — Industry Position (external, +1 to +7)</li>
+            </ul>
+            <div class="readout" style="margin-top:12px"><b>X</b> = CP + IP &nbsp;·&nbsp; <b>Y</b> = FP + SP. The vector's quadrant is the recommendation.</div>
+          </div>
+          <div class="col card" style="display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 240 240" style="width:230px">
+              <line x1="120" y1="10" x2="120" y2="230" stroke="#bcd" stroke-width="1.5"/>
+              <line x1="10" y1="120" x2="230" y2="120" stroke="#bcd" stroke-width="1.5"/>
+              <rect x="120" y="10" width="110" height="110" fill="#dff3df" opacity=".5"/>
+              <text x="175" y="60" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#0a6b16">Aggressive</text>
+              <text x="65" y="60" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#1a5a8a">Conservative</text>
+              <text x="65" y="185" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#8a3320">Defensive</text>
+              <text x="175" y="185" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#8a6b14">Competitive</text>
+              <text x="125" y="22" font-size="10" fill="#666">FP</text><text x="125" y="228" font-size="10" fill="#666">SP</text>
+              <text x="14" y="116" font-size="10" fill="#666">CP</text><text x="218" y="116" font-size="10" fill="#666">IP</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 34 SPACE CALC (TOOL 7) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool</div>
+      <h2 class="title">SPACE matrix calculator</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 07</span><span class="name">SPACE Calculator — Coca-Cola</span><span class="how">&#9656; Drag the sliders · the vector moves live</span></div>
+          <div class="tool-body">
+            <div style="width:330px">
+              <div class="ctl"><div class="lab"><span>FP · Financial Position</span><span id="v-fp">+4</span></div><input id="s-fp" class="slider" type="range" min="1" max="7" value="4" oninput="spaceCalc()"></div>
+              <div class="ctl"><div class="lab"><span>IP · Industry Position</span><span id="v-ip">+4</span></div><input id="s-ip" class="slider" type="range" min="1" max="7" value="4" oninput="spaceCalc()"></div>
+              <div class="ctl"><div class="lab"><span>CP · Competitive Position</span><span id="v-cp">&#8722;2</span></div><input id="s-cp" class="slider" type="range" min="-7" max="-1" value="-2" oninput="spaceCalc()"></div>
+              <div class="ctl"><div class="lab"><span>SP · Stability Position</span><span id="v-sp">&#8722;3</span></div><input id="s-sp" class="slider" type="range" min="-7" max="-1" value="-3" oninput="spaceCalc()"></div>
+              <div id="space-read" class="readout"></div>
+              <button class="btn sm" style="margin-top:10px" onclick="spaceReset()">Reset to Coca-Cola</button>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center" class="svg-card">
+              <svg id="space-svg" viewBox="0 0 360 360" style="width:340px"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 35 BCG CONCEPT -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Matching tool · Figure 6-7</div>
+      <h2 class="title">The BCG matrix</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p class="sub" style="margin-top:0">Portfolio analysis on two axes: <b>relative market share</b> (x) and <b>industry growth rate</b> (y). Each circle is a division; its size is revenue, its slice is profit.</p>
+            <ul class="bul tight" style="margin-top:12px">
+              <li><b>Stars</b> — high share, high growth &#8594; invest.</li>
+              <li><b>Cash Cows</b> — high share, low growth &#8594; milk.</li>
+              <li><b>Question Marks</b> — low share, high growth &#8594; decide.</li>
+              <li><b>Dogs</b> — low share, low growth &#8594; trim / divest.</li>
+            </ul>
+          </div>
+          <div class="col card" style="display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 240 200" style="width:230px">
+              <rect x="20" y="14" width="100" height="80" fill="#dff3df" opacity=".5"/><rect x="120" y="14" width="100" height="80" fill="#dfeefb" opacity=".5"/>
+              <rect x="20" y="94" width="100" height="80" fill="#fbf1d4" opacity=".5"/><rect x="120" y="94" width="100" height="80" fill="#f7e2db" opacity=".5"/>
+              <text x="70" y="58" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#0a6b16">Stars</text>
+              <text x="170" y="58" text-anchor="middle" font-family="Georgia" font-size="12" font-weight="700" fill="#1a5a8a">Question ?</text>
+              <text x="70" y="138" text-anchor="middle" font-family="Georgia" font-size="12" font-weight="700" fill="#8a6b14">Cash Cows</text>
+              <text x="170" y="138" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#8a3320">Dogs</text>
+              <text x="120" y="190" text-anchor="middle" font-size="9" fill="#666">&#8592; high share | low share &#8594;</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 36 BCG PLOTTER (TOOL 8) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool</div>
+      <h2 class="title">BCG matrix — Coca-Cola categories</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 08</span><span class="name">BCG Plotter — Coca-Cola product lines</span><span class="how">&#9656; Tap a category to read its position</span></div>
+          <div class="tool-body">
+            <div style="flex:1;display:flex;align-items:center;justify-content:center" class="svg-card">
+              <svg id="bcg-svg" viewBox="0 0 380 360" style="width:100%;max-width:430px"></svg>
+            </div>
+            <div style="width:300px;display:flex;flex-direction:column;gap:7px" id="bcg-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 37 IE CONCEPT -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Matching tool · Figure 6-10</div>
+      <h2 class="title">The Internal-External (IE) matrix</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p class="sub" style="margin-top:0">A nine-cell grid plotting <b>IFE total</b> (x-axis) against <b>EFE total</b> (y-axis). Three regions tell you what to do.</p>
+            <ul class="bul" style="margin-top:12px">
+              <li><b>Region 1</b> (cells I, II, IV) &#8594; <b>Grow &amp; Build</b> — invest, integrate, intensify.</li>
+              <li><b>Region 2</b> (cells III, V, VII) &#8594; <b>Hold &amp; Maintain</b> — penetrate, develop product.</li>
+              <li><b>Region 3</b> (cells VI, VIII, IX) &#8594; <b>Harvest or Divest</b>.</li>
+            </ul>
+            <div class="readout" style="margin-top:12px">Coca-Cola: IFE <b>2.88</b> (average) &#215; EFE <b>3.12</b> (high) &#8594; <b class="verdict">Cell II · Region 1 · Grow &amp; Build</b>.</div>
+          </div>
+          <div class="col card" style="display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 220 220" style="width:200px">
+              <g stroke="#cdded5" stroke-width="1" fill="none">
+                <rect x="20" y="20" width="180" height="180"/>
+                <line x1="80" y1="20" x2="80" y2="200"/><line x1="140" y1="20" x2="140" y2="200"/>
+                <line x1="20" y1="80" x2="200" y2="80"/><line x1="20" y1="140" x2="200" y2="140"/>
+              </g>
+              <rect x="20" y="20" width="120" height="120" fill="#dff3df" opacity=".4"/>
+              <circle cx="110" cy="50" r="9" fill="#028A0F"/>
+              <text x="50" y="55" font-family="Georgia" font-size="12" fill="#9bbf97" font-weight="700">I</text>
+              <text x="108" y="40" font-family="Georgia" font-size="12" fill="#0a6b16" font-weight="700">II</text>
+              <text x="13" y="14" font-size="8" fill="#666">EFE&#8593;</text>
+              <text x="185" y="216" font-size="8" fill="#666">&#8592;IFE</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 38 IE PLOTTER (TOOL 9) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool</div>
+      <h2 class="title">IE matrix plotter</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 09</span><span class="name">IE Plotter — move the scores, watch the cell</span><span class="how">&#9656; Slide IFE &amp; EFE, or reset to Coca-Cola</span></div>
+          <div class="tool-body">
+            <div style="width:320px">
+              <div class="ctl"><div class="lab"><span>IFE total (internal)</span><span id="v-ifeie">2.88</span></div><input id="s-ifeie" class="slider" type="range" min="1" max="4" step="0.01" value="2.88" oninput="ieCalc()"></div>
+              <div class="ctl"><div class="lab"><span>EFE total (external)</span><span id="v-efeie">3.12</span></div><input id="s-efeie" class="slider" type="range" min="1" max="4" step="0.01" value="3.12" oninput="ieCalc()"></div>
+              <div id="ie-read" class="readout"></div>
+              <button class="btn sm" style="margin-top:10px" onclick="ieReset()">Reset to Coca-Cola</button>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center" class="svg-card">
+              <svg id="ie-svg" viewBox="0 0 360 360" style="width:340px"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 39 GRAND CONCEPT -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Matching tool · Figure 6-13</div>
+      <h2 class="title">The Grand Strategy matrix</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <p class="sub" style="margin-top:0">Two dimensions: <b>competitive position</b> (x) and <b>market growth</b> (y). Any industry growing faster than ~5% is "rapid". Each quadrant lists strategies in order of attractiveness.</p>
+        <div class="grid2" style="margin-top:6px">
+          <div class="quad"><h4>Quadrant II · rapid growth, weak position</h4><p style="font-size:13px">Market development/penetration, product development, horizontal integration, divestiture, liquidation.</p></div>
+          <div class="quad"><h4>Quadrant I · rapid growth, strong position</h4><p style="font-size:13px">Excellent spot — concentrate on current markets &amp; products; integrate when resource-rich.</p></div>
+          <div class="quad"><h4>Quadrant III · slow growth, weak position</h4><p style="font-size:13px">Retrenchment, related/unrelated diversification, divestiture, liquidation.</p></div>
+          <div class="quad" style="border-color:var(--emerald)"><h4 style="color:var(--emerald-deep)">Quadrant IV · slow growth, strong position &nbsp;<span class="chip">Coca-Cola</span></h4><p style="font-size:13px">Related/unrelated diversification, joint ventures — deploy strong cash flow into faster-growing areas.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 40 GRAND PLOTTER (TOOL 10) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool</div>
+      <h2 class="title">Grand Strategy plotter</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 10</span><span class="name">Grand Strategy — position &amp; growth</span><span class="how">&#9656; Slide to see the quadrant &amp; its strategies</span></div>
+          <div class="tool-body">
+            <div style="width:330px">
+              <div class="ctl"><div class="lab"><span>Competitive position</span><span id="v-comp">Strong</span></div><input id="s-comp" class="slider" type="range" min="0" max="100" value="80" oninput="grandCalc()"></div>
+              <div class="ctl"><div class="lab"><span>Market growth</span><span id="v-grow">Slow</span></div><input id="s-grow" class="slider" type="range" min="0" max="100" value="30" oninput="grandCalc()"></div>
+              <div id="grand-read" class="readout"></div>
+              <button class="btn sm" style="margin-top:10px" onclick="grandReset()">Reset to Coca-Cola</button>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center" class="svg-card">
+              <svg id="grand-svg" viewBox="0 0 360 360" style="width:340px"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 41 QSPM CONCEPT -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Stage 3 · the decision tool</div>
+      <h2 class="title">The QSPM</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <p class="sub" style="margin-top:0">The Quantitative Strategic Planning Matrix is the <b>only</b> technique designed to objectively rank competing strategies. It reuses Stage-1 weights and asks how attractive each strategy is, factor by factor.</p>
+            <ul class="bul tight" style="margin-top:12px">
+              <li><b>AS</b> (Attractiveness Score 1–4): 1 = not attractive … 4 = highly attractive.</li>
+              <li><b>TAS</b> = weight &#215; AS, computed row by row.</li>
+              <li><b>STAS</b> = sum of TAS — the highest total wins.</li>
+              <li>Work <b>row by row</b>; never repeat the same AS across a row.</li>
+            </ul>
+          </div>
+          <div class="col card" style="display:flex;flex-direction:column;justify-content:center;text-align:center;gap:8px">
+            <div class="chip" style="align-self:center">Decision rule</div>
+            <p style="font-family:var(--serif);font-size:20px;color:var(--emerald-ink);line-height:1.4">Higher Sum Total Attractiveness Score &#8594; the more attractive strategy to implement.</p>
+            <p class="note">It turns "I think this is better" into a defensible number.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 42 QSPM CALC (TOOL 11) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool</div>
+      <h2 class="title">QSPM calculator</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 11</span><span class="name">QSPM — bottled water vs. snack diversification</span><span class="how">&#9656; Change any AS score · totals update live</span></div>
+          <div class="tool-body" style="flex-direction:column">
+            <div class="scrolly" style="flex:1"><table class="mtx" id="qspm-tbl"></table></div>
+            <div id="qspm-foot" style="display:flex;gap:14px;margin-top:10px;align-items:center"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 43 COSTS -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>From strategy to recommendation</div>
+      <h2 class="title">Estimating the cost of a recommendation</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <p class="sub" style="margin-top:0">A <b>recommendation</b> is any strategy selected for implementation. The most important page of a case project lists each one with a <b>3-year dollar cost (or saving)</b>, summed to a total capital need.</p>
+        <div class="grid2" style="margin-top:6px">
+          <div class="quad"><h4>Cost-per-unit</h4><p style="font-size:13.5px">New plant &#8776; $400/sq ft &#215; 100K sq ft = <b>$40M</b>. New stores &#8776; size &#215; cost/sq ft &#215; count.</p></div>
+          <div class="quad"><h4>Peer / 10-K lookup</h4><p style="font-size:13.5px">Find what similar firms paid, or divide total PP&amp;E by number of plants/stores for an average.</p></div>
+          <div class="quad"><h4>Acquire / divest</h4><p style="font-size:13.5px">Acquisition &#8776; segment's % share &#215; target's total value. Divestiture frees that capital.</p></div>
+          <div class="quad"><h4>Spread &amp; reason</h4><p style="font-size:13.5px">Spread plant cost over ~2 yrs, stores over ~3. Avoid wild guesses — use "excellent estimates."</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 44 CULTURE & POLITICS -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>The human side · LO 6.10–6.11</div>
+      <h2 class="title">Culture &amp; politics in strategy choice</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col card">
+            <h4 style="color:var(--emerald-deep);margin-bottom:10px">Culture</h4>
+            <ul class="bul tight">
+              <li>Success often rests on how much a strategy is <b>supported by the firm's culture</b>.</li>
+              <li>Strategies needing <b>fewer cultural changes</b> are more attractive — change is slow and costly.</li>
+              <li>Culture-strategy fit is critical in <b>mergers</b>, where two cultures collide.</li>
+            </ul>
+          </div>
+          <div class="col card">
+            <h4 style="color:var(--emerald-deep);margin-bottom:10px">Politics</h4>
+            <ul class="bul tight">
+              <li>All organizations are political; objective tools <b>reduce</b> the role of bias.</li>
+              <li>Successful strategists <b>lead but don't dictate</b> — they build coalitions and reserve vetoes for big issues.</li>
+              <li>A satisfactory result with a <b>popular</b> strategy often beats an optimal one nobody supports.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel"><span class="chip gold">Six subjective threats</span> <span style="font-size:14px">personal biases · politics · prejudices · emotions · personalities · halo error — the very things the analytical framework is built to discipline.</span></div>
+      </div>
+    </section>
+
+    <!-- 45 MASTERY QUIZ (TOOL 12) -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Live tool · check yourself</div>
+      <h2 class="title">Chapter 6 mastery quiz</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="tool">
+          <div class="tool-bar"><span class="badge">LIVE TOOL · 12</span><span class="name">8-question mastery check</span><span class="how" id="qz-score">Score 0 / 0</span></div>
+          <div class="tool-body" style="flex-direction:column">
+            <div id="qz-prog" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:6px"></div>
+            <div id="qz-q" style="font-size:16.5px;color:var(--emerald-ink);font-weight:600;line-height:1.5;min-height:48px"></div>
+            <div id="qz-opts"></div>
+            <div id="qz-fb" class="readout" style="margin-top:10px;display:none"></div>
+            <div style="margin-top:auto;display:flex;justify-content:flex-end;gap:10px"><button class="btn" onclick="qzRestart()">Restart</button><button class="btn solid" id="qz-next" onclick="qzNext()">Next &#9656;</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 46 TAKEAWAYS -->
+    <section class="slide">
+      <div class="eyebrow"><span class="tick"></span>Wrap-up</div>
+      <h2 class="title">Key takeaways &amp; deliverables</h2>
+      <div class="rule"></div>
+      <div class="body">
+        <div class="cols">
+          <div class="col">
+            <h4 style="color:var(--emerald-deep);margin-bottom:6px;font-size:15px">What we built</h4>
+            <ul class="checklist">
+              <li>Reloaded the supplied IFE <b>2.88</b> &amp; EFE <b>3.12</b> (Part 1)</li>
+              <li>Eight specific SWOT strategies — 2 each SO/ST/WO/WT (Part 2)</li>
+              <li>Every strategy mapped to a strategy type (Part 3)</li>
+              <li>Coca-Cola read across SPACE, BCG, IE &amp; Grand &#8594; consistently <b>grow &amp; build</b></li>
+            </ul>
+          </div>
+          <div class="col card" style="background:linear-gradient(150deg,#063709,#024d09);color:#eafbe9">
+            <h4 style="color:#fff;margin-bottom:10px;font-size:15px">To submit in D2L (Word docs)</h4>
+            <ul class="bul tight" style="color:#dff3df">
+              <li style="color:#eafbe9">The supplied <b>IFE &amp; EFE</b> re-entered (Part 1)</li>
+              <li style="color:#eafbe9">The <b>8-strategy SWOT table</b> with S/W/O/T notation (Part 2)</li>
+              <li style="color:#eafbe9">The <b>strategy-type mapping table</b> (Part 3)</li>
+            </ul>
+            <p style="font-size:11.5px;color:#bfe7be;margin-top:14px;font-style:italic">Both tables appear in full on slides 25–28 and 31 of this deck.</p>
+          </div>
+        </div>
+        <p class="credit" style="text-align:center;margin-top:6px">Sources: David, David &amp; David, <em>Strategic Management: A Competitive Advantage Approach</em>, 17e — Chapter 6 &amp; the Coca-Cola Cohesion Case (2018). Supplied Coca-Cola IFE/EFE (MGMT 497).</p>
+      </div>
+    </section>
+
+    <!-- NAV -->
+    <div id="nav">
+      <span class="brand"><b>MGMT 497</b> · Assignment 12 · Coca-Cola SWOT</span>
+      <span class="spacer"></span>
+      <button onclick="go(-1)" aria-label="Previous">&#9664;</button>
+      <span class="count" id="count">1 / 46</span>
+      <button onclick="go(1)" aria-label="Next">&#9654;</button>
+      <select id="jump" onchange="jump(this.value)"></select>
+    </div>
+  </div>
+</div>
+<script>
+/* ============ DATA ============ */
+var EFE_OPP=[
+ {t:"Soft-drink consumption up 39% in Asia Pacific (2012\u201317)",w:.08,r:4},
+ {t:"Africa soda consumption projected +29% (2015\u201320)",w:.08,r:4},
+ {t:"US bottled-water consumption up 9% (2016)",w:.06,r:3},
+ {t:"US sports-drink volume up 10% (2012\u201315)",w:.06,r:2},
+ {t:"Global energy drinks fastest-growing, +3.7% (2017\u201322)",w:.05,r:3},
+ {t:"Global juice market projected +3.4% (2016\u201324)",w:.05,r:3},
+ {t:"US ready-to-drink tea up 3.7% (2015)",w:.04,r:2},
+ {t:"US coffee consumption up 5% (2016)",w:.04,r:2},
+ {t:"Worldwide protein market up 60% (2016\u201317)",w:.02,r:2},
+ {t:"Global snack market reaches $620B by 2021 (+5.8%)",w:.02,r:1}];
+var EFE_THR=[
+ {t:"US soda per-capita 45.5 to 40.7 gal (2010\u201315)",w:.08,r:4},
+ {t:"Healthy Eating Index rising toward 69.6% of diet",w:.08,r:4},
+ {t:"US sugar consumption down 14% since 1999",w:.06,r:4},
+ {t:"US full-calorie soda down 25% (1995\u20132015)",w:.06,r:3},
+ {t:"Americans drank 400M more gal water than soda (2016)",w:.06,r:2},
+ {t:"Mexico soda down 12% after junk-food tax (2014\u201316)",w:.06,r:3},
+ {t:"US teen daily soda down 13% (2007\u201315)",w:.04,r:3},
+ {t:"Keurig to acquire Dr Pepper Snapple ($18.7B)",w:.03,r:3},
+ {t:"Berkeley soda down 10% in year 1 of sugar tax",w:.02,r:3},
+ {t:"Dr Pepper +1.3% while Pepsi & Coke fell (2016)",w:.01,r:3}];
+var IFE_STR=[
+ {t:"23 of 34 top US restaurant chains pour Coke over Pepsi",w:.07,r:4},
+ {t:"Dasani volume up 5.3% (2016)",w:.07,r:4},
+ {t:"Monster up 50% (2014\u201315); #2 US energy drink",w:.07,r:4},
+ {t:"Sold in 200 countries \u2014 widest global reach",w:.06,r:4},
+ {t:"Simply + Minute Maid = $940M OJ sales (2016)",w:.05,r:4},
+ {t:"PowerAde share up 10% since 2006",w:.05,r:3},
+ {t:"North America net revenue up 3.7% (2015\u201316)",w:.04,r:2},
+ {t:"Fairlife milk up 79% (2016)",w:.04,r:4},
+ {t:"Sprite up 3.7% global consumption (2017)",w:.03,r:2},
+ {t:"Fanta added $100M sales (2015\u201316)",w:.02,r:3}];
+var IFE_WK=[
+ {t:"Overall Coke sales down 11% (Apr'16 to Apr'17)",w:.08,r:3},
+ {t:"Non-US net revenue down 16% (2014\u201316)",w:.08,r:3},
+ {t:"Total revenue down 5% (2015\u201316)",w:.08,r:1},
+ {t:"EMEA net revenue down 4% (2015\u201316)",w:.06,r:2},
+ {t:"No snack-food brand (Pepsi: 52% of revenue from food)",w:.04,r:2},
+ {t:"PowerAde 20% vs Gatorade's 77% of sports drinks",w:.04,r:1},
+ {t:"Dunkin coffee only 6.6% of US coffee sales",w:.04,r:3},
+ {t:"Coca-Cola brand volume down 0.01% (2016)",w:.03,r:2},
+ {t:"Diet Coke volume down 4.3% (2016)",w:.03,r:3},
+ {t:"Honest Tea only 1.9% of RTD-tea sales",w:.02,r:1}];
+var FACT={
+ S1:"23 of 34 top US chains pour Coke",S2:"Dasani +5.3%",S3:"Monster #2, +50%",S4:"200 countries",S5:"Simply+Minute Maid $940M",S6:"PowerAde +10%",S7:"N.America rev +3.7%",S8:"Fairlife +79%",S9:"Sprite +3.7%",S10:"Fanta +$100M",
+ W1:"Coke sales -11%",W2:"Non-US rev -16%",W3:"Total rev -5%",W4:"EMEA rev -4%",W5:"No snack brand",W6:"PowerAde 20% vs Gatorade 77%",W7:"Dunkin coffee 6.6%",W8:"Coke volume -0.01%",W9:"Diet Coke -4.3%",W10:"Honest Tea 1.9%",
+ O1:"Asia-Pac +39%",O2:"Africa +29%",O3:"US water +9%",O4:"US sports +10%",O5:"Energy +3.7%",O6:"Juice +3.4%",O7:"RTD tea +3.7%",O8:"Coffee +5%",O9:"Protein +60%",O10:"Snacks to $620B",
+ T1:"Soda per-capita falling",T2:"Healthy-eating rising",T3:"Sugar -14%",T4:"Full-cal soda -25%",T5:"Water > soda",T6:"Mexico soda -12%",T7:"Teen soda -13%",T8:"Keurig buys Dr Pepper",T9:"Berkeley soda -10%",T10:"Dr Pepper +1.3%"};
+var STRAT=[
+ {id:"SO1",grp:"SO",text:"Build two new bottling plants in India and Vietnam (~$80M over 3 yrs) to scale Dasani and Smartwater across Asia Pacific.",f:["S2","S4","O1","O3"],note:"S2,S4 + O1,O3",map:"Market Development + Backward Integration",cost:"~ $80M / 3 yrs"},
+ {id:"SO2",grp:"SO",text:"Grow Monster Energy and Fairlife distribution across African markets by 40% to capture the projected 29% beverage-consumption rise.",f:["S3","S8","O2","O5"],note:"S3,S8 + O2,O5",map:"Market Development",cost:"~ $120M / 3 yrs"},
+ {id:"ST1",grp:"ST",text:"Sign 5-year exclusive fountain contracts with the top 30 US restaurant chains to lock in placement against the per-capita soda decline.",f:["S1","T1"],note:"S1 + T1",map:"Forward Integration",cost:"~ $200M incentives / 3 yrs"},
+ {id:"ST2",grp:"ST",text:"Relaunch Dasani with naturally-flavored, zero-sugar SKUs and a national campaign to win share as water overtakes soda.",f:["S2","T5"],note:"S2 + T5",map:"Product Development + Market Penetration",cost:"~ $90M"},
+ {id:"WO1",grp:"WO",text:"Acquire a mid-size healthy-snack company (~$3B) to diversify like PepsiCo and tap the $620B global snack market.",f:["W5","O10"],note:"W5 + O10",map:"Related Diversification",cost:"~ $3B acquisition"},
+ {id:"WO2",grp:"WO",text:"Invest $50M in three new Honest Tea flavors plus marketing to lift its 1.9% share in the growing ready-to-drink tea market.",f:["W10","O7"],note:"W10 + O7",map:"Product Development + Market Penetration",cost:"~ $50M"},
+ {id:"WT1",grp:"WT",text:"Divest the loss-making Bottling Investments segment (-$1.1B operating loss) to cut exposure to declining carbonated-soda volume.",f:["W3","T1","T4"],note:"W3 + T1,T4",map:"Divestiture / Retrenchment",cost:"frees capital; cuts losses"},
+ {id:"WT2",grp:"WT",text:"Reformulate PowerAde with a zero-sugar line and launch in 10 new countries to defend against the 25% full-calorie soda decline.",f:["W6","T4"],note:"W6 + T4",map:"Product Development + Market Development",cost:"~ $110M / 3 yrs"}];
+var GRP_META={SO:{tag:"tag-off",col:"#028A0F",stance:"Offensive"},ST:{tag:"",col:"#E7B12C",stance:"Offensive"},WO:{tag:"",col:"#1a5a8a",stance:"Defensive"},WT:{tag:"tag-def",col:"#C0492B",stance:"Defensive"}};
+var TYPE_MAP=[
+ {n:1,type:"Forward integration",s:"<b>ST1</b> &mdash; 5-yr exclusive fountain contracts with the top 30 US restaurant chains"},
+ {n:2,type:"Backward integration",s:"<b>SO1</b> &mdash; build own bottling plants in India &amp; Vietnam (control of supply)"},
+ {n:3,type:"Horizontal integration",s:"<span class='note'>&mdash; no strategy assigned &mdash;</span>"},
+ {n:4,type:"Market penetration",s:"<b>ST2</b> &mdash; national Dasani relaunch campaign &nbsp;&middot;&nbsp; <b>WO2</b> &mdash; Honest Tea marketing push"},
+ {n:5,type:"Market development",s:"<b>SO2</b> &mdash; Africa distribution +40% &nbsp;&middot;&nbsp; <b>WT2</b> &mdash; PowerAde into 10 new countries"},
+ {n:6,type:"Product development",s:"<b>ST2</b> &mdash; flavored zero-sugar Dasani &nbsp;&middot;&nbsp; <b>WO2</b> &mdash; 3 new Honest Tea flavors &nbsp;&middot;&nbsp; <b>WT2</b> &mdash; zero-sugar PowerAde"},
+ {n:7,type:"Related diversification",s:"<b>WO1</b> &mdash; acquire a healthy-snack company (food is beverage-adjacent)"},
+ {n:8,type:"Unrelated diversification",s:"<span class='note'>&mdash; no strategy assigned &mdash;</span>"},
+ {n:9,type:"Retrenchment",s:"<b>WT1</b> &mdash; exit/divest the loss-making Bottling Investments segment"},
+ {n:10,type:"Divestiture",s:"<b>WT1</b> &mdash; sell the Bottling Investments segment to raise capital"},
+ {n:11,type:"Liquidation",s:"<span class='note'>&mdash; no strategy assigned &mdash;</span>"}];
+var BCG=[
+ {name:"Coca-Cola (sparkling)",rmsp:0.95,growth:-0.8,rev:48,q:"Cash Cow",note:"Market leader in a declining category \u2014 milk the cash."},
+ {name:"Dasani (bottled water)",rmsp:0.68,growth:8.6,rev:14,q:"Star",note:"Strong #2 share in a booming category \u2014 invest to lead."},
+ {name:"Minute Maid (juice)",rmsp:0.50,growth:3.4,rev:12,q:"Star / ? border",note:"Mid share, modest growth \u2014 sits on the boundary."},
+ {name:"PowerAde (sports)",rmsp:0.26,growth:3.9,rev:9,q:"Question Mark",note:"Trails Gatorade (77%) in a growing category \u2014 decide."},
+ {name:"Gold Peak / Honest (tea & coffee)",rmsp:0.20,growth:2.5,rev:7,q:"Dog / ? border",note:"Low share, slow growth \u2014 trim or rethink."}];
+var QF=[
+ {k:"O1 \u00b7 Asia-Pacific consumption +39%",w:.08,a:4,b:2},
+ {k:"O3 \u00b7 US bottled water +9%",w:.06,a:4,b:1},
+ {k:"O10 \u00b7 Global snack market to $620B",w:.02,a:1,b:4},
+ {k:"T1 \u00b7 US soda per-capita declining",w:.08,a:4,b:3},
+ {k:"T5 \u00b7 Americans drank 400M more gal water than soda",w:.06,a:4,b:2},
+ {k:"S2 \u00b7 Dasani volume +5.3%",w:.07,a:4,b:1},
+ {k:"S4 \u00b7 Sold in 200 countries",w:.06,a:3,b:3},
+ {k:"W5 \u00b7 No snack-food brand",w:.04,a:1,b:4}];
+
+/* ============ NAV / SCALE ============ */
+var TITLES=["Title","How to use this deck","Roadmap","Chapter 6 \u2014 the big idea","Strategic-management model","Framework Explorer (Tool 1)","Stage 1 \u2014 Input stage","Reading EFE / IFE","The 1\u20134 scale","Part 1 \u2014 level starting line","Coke EFE \u2014 Opportunities","Coke EFE \u2014 Threats","Coke IFE \u2014 Strengths","Coke IFE \u2014 Weaknesses","Score Gauge (Tool 2)","Stage 2 \u2014 Matching stage","The SWOT matrix","SO \u00b7 WO \u00b7 ST \u00b7 WT","Offense & defense","Eight-step method","Specificity rule","Figure 6-3 example","SWOT Builder (Tool 3)","SWOT Matcher (Tool 4)","Part 2 \u2014 SO strategies","Part 2 \u2014 ST strategies","Part 2 \u2014 WO strategies","Part 2 \u2014 WT strategies","Strategy Explorer (Tool 5)","Part 3 \u2014 11 strategy types","Part 3 \u2014 strategy mapping","Type Classifier (Tool 6)","The SPACE matrix","SPACE Calculator (Tool 7)","The BCG matrix","BCG Plotter (Tool 8)","The IE matrix","IE Plotter (Tool 9)","Grand Strategy matrix","Grand Plotter (Tool 10)","The QSPM","QSPM Calculator (Tool 11)","Estimating costs","Culture & politics","Mastery Quiz (Tool 12)","Takeaways & deliverables"];
+var slides=[].slice.call(document.querySelectorAll('.slide'));
+var cur=0;
+function el(id){return document.getElementById(id);}
+function show(n){
+  cur=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach(function(s,i){s.classList.toggle('active',i===cur);});
+  el('count').textContent=(cur+1)+' / '+slides.length;
+  el('progress').style.width=(cur/(slides.length-1)*100)+'%';
+  el('jump').value=cur;
+}
+function go(d){show(cur+d);}
+function jump(v){show(parseInt(v,10));}
+function fit(){var s=Math.min(window.innerWidth/1280,window.innerHeight/720);el('stage').style.transform='translate(-50%,-50%) scale('+s+')';}
+window.addEventListener('resize',fit);
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='PageDown'){go(1);}else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(-1);}});
+
+/* ============ TOOL 1 — FRAMEWORK EXPLORER ============ */
+var FW={
+ 1:{title:"Stage 1 \u00b7 The Input Stage",sub:"Summarises the raw information needed to formulate strategy.",tools:[["EFE Matrix","External opportunities & threats \u2014 Coca-Cola scores 3.12"],["CPM","The firm scored head-to-head against rivals"],["IFE Matrix","Internal strengths & weaknesses \u2014 Coca-Cola scores 2.88"]]},
+ 2:{title:"Stage 2 \u00b7 The Matching Stage",sub:"Aligns internal and external factors into feasible alternatives.",tools:[["SWOT","S\u00d7O\u00d7T\u00d7W into SO, WO, ST, WT strategies"],["SPACE","Aggressive / conservative / defensive / competitive"],["BCG","Stars, cash cows, question marks, dogs"],["IE","IFE \u00d7 EFE nine-cell grid"],["Grand Strategy","Competitive position \u00d7 market growth"]]},
+ 3:{title:"Stage 3 \u00b7 The Decision Stage",sub:"One technique objectively ranks the alternatives.",tools:[["QSPM","Uses Stage-1 weights + Stage-2 strategies to score attractiveness \u2014 the highest STAS wins"]]}};
+function fwShow(n){
+  document.querySelectorAll('.fw-btn').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-fw')==String(n));});
+  var d=FW[n],h='<div class="panel" style="height:100%;overflow:auto"><h3 style="font-family:var(--serif);color:var(--emerald-ink);font-size:20px;margin-bottom:4px">'+d.title+'</h3><p class="note" style="margin-bottom:12px">'+d.sub+'</p><div style="display:flex;flex-wrap:wrap;gap:10px">';
+  d.tools.forEach(function(t){h+='<div class="card" style="flex:1 1 30%;min-width:180px;box-shadow:none"><div class="chip" style="margin-bottom:6px">'+t[0]+'</div><div style="font-size:13px;color:var(--ink);line-height:1.45">'+t[1]+'</div></div>';});
+  h+='</div></div>';el('fw-detail').innerHTML=h;
+}
+
+/* ============ EFE/IFE TABLES ============ */
+function renderMtx(id,rows,kind){
+  var h='<table class="mtx"><tr><th>'+kind+'</th><th>Weight</th><th>Rating</th><th>Score</th></tr>';
+  rows.forEach(function(r,i){var ws=r.w*r.r;h+='<tr><td>'+(i+1)+'. '+r.t+'</td><td class="num">'+r.w.toFixed(2)+'</td><td class="num">'+r.r+'</td><td class="num"><b>'+ws.toFixed(2)+'</b></td></tr>';});
+  h+='</table>';el(id).innerHTML=h;
+}
+
+/* ============ TOOL 2 — GAUGE ============ */
+var gMode='efe';
+function pol(cx,cy,r,deg){var a=deg*Math.PI/180;return [cx+r*Math.cos(a),cy-r*Math.sin(a)];}
+function arcPath(cx,cy,r,a0,a1){var p0=pol(cx,cy,r,a0),p1=pol(cx,cy,r,a1);return 'M '+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+' A '+r+' '+r+' 0 0 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1);}
+function gaugeSet(m){gMode=m;el('g-efe').classList.toggle('on',m==='efe');el('g-ife').classList.toggle('on',m==='ife');gaugeDraw();}
+function gaugeDraw(){
+  var isE=gMode==='efe';
+  var rows=isE?EFE_OPP.concat(EFE_THR):IFE_STR.concat(IFE_WK);
+  var total=isE?3.12:2.88;var cx=150,cy=168,r=118;
+  var ang=180-(total-1)/3*180;var tip=pol(cx,cy,r*0.82,ang);var s='';
+  s+='<path d="'+arcPath(cx,cy,r,180,90)+'" fill="none" stroke="#e3c8be" stroke-width="20" stroke-linecap="round"/>';
+  s+='<path d="'+arcPath(cx,cy,r,90,0)+'" fill="none" stroke="#bfe3bf" stroke-width="20" stroke-linecap="round"/>';
+  [1,2,3,4].forEach(function(v){var aa=180-(v-1)/3*180;var t1=pol(cx,cy,r+14,aa);s+='<text x="'+t1[0].toFixed(1)+'" y="'+t1[1].toFixed(1)+'" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#4B6B4D">'+v.toFixed(1)+'</text>';});
+  var mid=pol(cx,cy,r,90);s+='<line x1="'+mid[0]+'" y1="'+(mid[1]-12)+'" x2="'+mid[0]+'" y2="'+(mid[1]+8)+'" stroke="#999" stroke-width="1" stroke-dasharray="2,2"/>';
+  s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+tip[0].toFixed(1)+'" y2="'+tip[1].toFixed(1)+'" stroke="#028A0F" stroke-width="4" stroke-linecap="round"/>';
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="8" fill="#06340B"/>';
+  s+='<text x="'+cx+'" y="'+(cy-30)+'" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#028A0F">'+total.toFixed(2)+'</text>';
+  s+='<text x="'+cx+'" y="'+(cy-12)+'" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" letter-spacing="2" fill="#4B6B4D">'+(isE?'TOTAL EFE':'TOTAL IFE')+'</text>';
+  el('gauge-svg').innerHTML=s;
+  var verdict=isE?'Above the 2.5 average \u2014 Coca-Cola responds well to external opportunities and threats.':'Above the 2.5 average \u2014 Coca-Cola is slightly stronger than average internally.';
+  el('gauge-read').innerHTML='<span class="verdict">'+(total>2.5?'Above average':'Below average')+'</span> &middot; '+verdict;
+  var h='<table class="mtx"><tr><th>'+(isE?'External factor':'Internal factor')+'</th><th>Wt</th><th>Rt</th><th>Score</th></tr>';
+  rows.forEach(function(rr){h+='<tr style="cursor:pointer" onclick="this.style.background=\'#dff3df\'"><td>'+rr.t+'</td><td class="num">'+rr.w.toFixed(2)+'</td><td class="num">'+rr.r+'</td><td class="num"><b>'+(rr.w*rr.r).toFixed(2)+'</b></td></tr>';});
+  h+='</table>';el('gauge-tbl').innerHTML=h;
+}
+
+/* ============ TOOL 3 — SWOT BUILDER ============ */
+function factorChips(arr){return arr.map(function(f){var c=f[0]==='S'?'s':f[0]==='W'?'w':f[0]==='O'?'o':'t';return '<span class="chip '+c+'">'+f+' \u00b7 '+FACT[f]+'</span>';}).join(' ');}
+function swShow(grp){
+  document.querySelectorAll('.sw-btn').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-sw')===grp);});
+  var m=GRP_META[grp];var items=STRAT.filter(function(s){return s.grp===grp;});
+  var titleMap={SO:"Use STRENGTHS to seize OPPORTUNITIES",ST:"Use STRENGTHS to dodge THREATS",WO:"Fix WEAKNESSES via OPPORTUNITIES",WT:"Reduce WEAKNESS & avoid THREATS"};
+  var h='<div style="flex:1;display:flex;flex-direction:column;gap:10px;min-height:0;overflow:auto">';
+  h+='<div class="panel" style="border-left:4px solid '+m.col+'"><b style="color:'+m.col+'">'+grp+' \u00b7 '+m.stance+'</b> &mdash; '+titleMap[grp]+'</div>';
+  items.forEach(function(s){h+='<div class="card" style="box-shadow:none;border-left:4px solid '+m.col+'"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="chip">'+s.id+'</span><span class="chip" style="background:#fff">'+s.note+'</span><span class="chip gold" style="margin-left:auto">'+s.map+'</span></div><div style="font-size:14.5px;line-height:1.45;color:var(--ink)">'+s.text+'</div><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px">'+factorChips(s.f)+'</div></div>';});
+  h+='</div>';el('sw-out').innerHTML=h;
+}
+
+/* ============ TOOL 4 — SWOT MATCHER ============ */
+var m4i=0,m4s=0,m4n=0,m4done=false;
+function m4Render(){m4done=false;var s=STRAT[m4i];el('m4-q').innerHTML='<span class="chip" style="margin-right:8px">'+(m4i+1)+'/'+STRAT.length+'</span>'+s.text;el('m4-opts').innerHTML=['SO','ST','WO','WT'].map(function(o){return '<button class="btn" style="flex:1" onclick="m4Pick(\''+o+'\')">'+o+'</button>';}).join('');el('m4-fb').style.display='none';}
+function m4Pick(o){if(m4done)return;m4done=true;m4n++;var s=STRAT[m4i];var ok=(o===s.grp);if(ok)m4s++;el('m4-opts').querySelectorAll('button').forEach(function(b){b.disabled=true;if(b.textContent===s.grp)b.classList.add('correct');else if(b.textContent===o)b.classList.add('wrong');});el('m4-score').textContent='Score '+m4s+' / '+m4n;el('m4-fb').style.display='block';el('m4-fb').innerHTML=(ok?'<span class="verdict">Correct \u2713</span> ':'<span style="color:#C0492B;font-weight:700">Not quite \u2014 it is '+s.grp+'.</span> ')+'This combines '+s.note+'.';}
+function m4Next(){m4i=(m4i+1)%STRAT.length;m4Render();}
+
+/* ============ STRATEGY SLIDES 25-28 ============ */
+function strSlide(grp,target){
+  var m=GRP_META[grp];var items=STRAT.filter(function(s){return s.grp===grp;});var h='';
+  items.forEach(function(s){h+='<div class="card" style="margin-bottom:14px;border-left:5px solid '+m.col+';padding:16px 20px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span class="tagm '+(m.tag||'')+'" style="'+(m.tag?'':'background:#eef6ec;color:'+m.col+';border:1px solid '+m.col)+'">'+s.id+'</span><span class="chip">'+s.note+'</span><span class="chip gold" style="margin-left:auto">'+s.cost+'</span></div><p style="font-size:16px;line-height:1.5;color:var(--ink)">'+s.text+'</p><div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">'+factorChips(s.f)+'</div><div class="note" style="margin-top:8px">Strategy type: '+s.map+'</div></div>';});
+  el(target).innerHTML=h;
+}
+
+/* ============ TOOL 5 — STRATEGY EXPLORER ============ */
+var seSel=0;
+function seRender(){var h='';STRAT.forEach(function(s,i){var m=GRP_META[s.grp];h+='<button class="btn" style="text-align:left;border-left:4px solid '+m.col+';'+(i===seSel?'background:var(--mist-2)':'')+'" onclick="seShow('+i+')"><b>'+s.id+'</b> &middot; '+s.grp+' '+m.stance+'</button>';});el('se-list').innerHTML=h;seShow(seSel);}
+function seShow(i){seSel=i;var s=STRAT[i];var m=GRP_META[s.grp];document.querySelectorAll('#se-list button').forEach(function(b,j){b.style.background=j===i?'var(--mist-2)':'';});el('se-detail').innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span class="chip" style="background:'+m.col+';color:#fff;border-color:'+m.col+'">'+s.id+'</span><span class="tagm '+(s.grp==='SO'?'tag-off':s.grp==='WT'?'tag-def':'')+'" style="'+(s.grp==='ST'?'background:#fbf1d4;color:#8a6b14':s.grp==='WO'?'background:#dfeefb;color:#1a5a8a':'')+'">'+s.grp+' \u00b7 '+m.stance+'</span></div><p style="font-size:17px;line-height:1.55;color:var(--emerald-ink);font-weight:600;margin-bottom:14px">'+s.text+'</p><div style="display:flex;flex-direction:column;gap:10px"><div><div class="note" style="margin-bottom:5px">Factors combined ('+s.note+')</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+factorChips(s.f)+'</div></div><div style="display:flex;gap:20px;flex-wrap:wrap"><div><div class="note">Maps to strategy type</div><div style="font-weight:700;color:var(--emerald-deep);font-size:14px">'+s.map+'</div></div><div><div class="note">Estimated cost</div><div style="font-weight:700;color:var(--emerald-deep);font-size:14px">'+s.cost+'</div></div></div></div>';}
+
+/* ============ PART 3 MAP TABLE ============ */
+function mapTable(){var h='<table class="mtx"><tr><th style="width:30px">#</th><th style="width:200px">Strategy type</th><th>Matched strategy</th></tr>';TYPE_MAP.forEach(function(r){h+='<tr><td class="num">'+r.n+'</td><td><b>'+r.type+'</b></td><td>'+r.s+'</td></tr>';});h+='</table>';el('type-map-tbl').innerHTML=h;}
+
+/* ============ TOOL 6 — TYPE CLASSIFIER ============ */
+var C6=[
+ {s:"Sign 5-yr exclusive fountain contracts with the top 30 US restaurant chains",a:"Forward integration",o:["Forward integration","Backward integration","Market penetration","Horizontal integration"],w:"Gaining control of the channel that sells to end customers = forward integration."},
+ {s:"Build two Coca-Cola bottling plants in India and Vietnam",a:"Backward integration",o:["Backward integration","Market development","Forward integration","Related diversification"],w:"Owning your own bottling (supply) = backward integration."},
+ {s:"Grow distribution across new African markets by 40%",a:"Market development",o:["Market development","Market penetration","Product development","Retrenchment"],w:"Entering new geographic markets = market development."},
+ {s:"Launch three new Honest Tea flavors",a:"Product development",o:["Product development","Market penetration","Unrelated diversification","Divestiture"],w:"Creating new or improved products = product development."},
+ {s:"Acquire a mid-size healthy-snack food company",a:"Related diversification",o:["Related diversification","Unrelated diversification","Horizontal integration","Backward integration"],w:"Adding a new but connected (food/beverage) business = related diversification."},
+ {s:"Sell off the loss-making Bottling Investments segment",a:"Divestiture",o:["Divestiture","Liquidation","Retrenchment","Market penetration"],w:"Selling one division = divestiture (a defensive move)."},
+ {s:"Run a national ad campaign to grow Dasani share in current markets",a:"Market penetration",o:["Market penetration","Market development","Product development","Forward integration"],w:"More share for an existing product in existing markets via marketing = market penetration."}];
+var c6i=0,c6s=0,c6n=0,c6done=false;
+function c6Render(){c6done=false;var q=C6[c6i];el('c6-q').innerHTML='<span class="chip" style="margin-right:8px">'+(c6i+1)+'/'+C6.length+'</span>'+q.s;el('c6-opts').innerHTML=q.o.map(function(o){return '<button class="btn" onclick="c6Pick(this)">'+o+'</button>';}).join('');el('c6-fb').style.display='none';}
+function c6Pick(btn){if(c6done)return;c6done=true;c6n++;var q=C6[c6i];var o=btn.textContent;var ok=(o===q.a);if(ok)c6s++;el('c6-opts').querySelectorAll('button').forEach(function(b){b.disabled=true;if(b.textContent===q.a)b.classList.add('correct');else if(b===btn)b.classList.add('wrong');});el('c6-score').textContent='Score '+c6s+' / '+c6n;el('c6-fb').style.display='block';el('c6-fb').innerHTML=(ok?'<span class="verdict">Correct \u2713</span> ':'<span style="color:#C0492B;font-weight:700">It is '+q.a+'.</span> ')+q.w;}
+function c6Next(){c6i=(c6i+1)%C6.length;c6Render();}
+
+/* ============ TOOL 7 — SPACE ============ */
+function spaceDraw(fp,ip,cp,sp){
+  var X=cp+ip,Y=fp+sp,cx=180,cy=180,u=22;
+  function px(x){return cx+x*u;}function py(y){return cy-y*u;}
+  var s='';
+  s+='<rect x="180" y="20" width="160" height="160" fill="#dff3df" opacity=".45"/>';
+  s+='<rect x="20" y="20" width="160" height="160" fill="#dfeefb" opacity=".4"/>';
+  s+='<rect x="20" y="180" width="160" height="160" fill="#f7e2db" opacity=".4"/>';
+  s+='<rect x="180" y="180" width="160" height="160" fill="#fbf1d4" opacity=".4"/>';
+  s+='<line x1="180" y1="20" x2="180" y2="340" stroke="#b9cdb6" stroke-width="1.5"/><line x1="20" y1="180" x2="340" y2="180" stroke="#b9cdb6" stroke-width="1.5"/>';
+  s+='<text x="262" y="40" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#0a6b16">Aggressive</text>';
+  s+='<text x="98" y="40" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#1a5a8a">Conservative</text>';
+  s+='<text x="98" y="332" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#8a3320">Defensive</text>';
+  s+='<text x="262" y="332" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#8a6b14">Competitive</text>';
+  s+='<text x="186" y="32" font-size="10" fill="#666">FP</text><text x="186" y="334" font-size="10" fill="#666">SP</text><text x="26" y="176" font-size="10" fill="#666">CP</text><text x="322" y="176" font-size="10" fill="#666">IP</text>';
+  s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+px(X).toFixed(1)+'" y2="'+py(Y).toFixed(1)+'" stroke="#028A0F" stroke-width="3"/>';
+  s+='<circle cx="'+px(X).toFixed(1)+'" cy="'+py(Y).toFixed(1)+'" r="7" fill="#028A0F" stroke="#fff" stroke-width="2"/>';
+  s+='<text x="'+(px(X)+10).toFixed(1)+'" y="'+(py(Y)-8).toFixed(1)+'" font-family="ui-monospace,monospace" font-size="11" font-weight="700" fill="#06340B">('+X.toFixed(1)+', '+Y.toFixed(1)+')</text>';
+  el('space-svg').innerHTML=s;
+  var quad=X>=0?(Y>=0?'AGGRESSIVE':'COMPETITIVE'):(Y>=0?'CONSERVATIVE':'DEFENSIVE');
+  var rec={AGGRESSIVE:'Use strengths to seize opportunities \u2014 penetration, development, product development, integration, diversification.',CONSERVATIVE:'Stay near core competencies \u2014 penetration, development, product development, related diversification.',DEFENSIVE:'Fix weaknesses & avoid threats \u2014 retrenchment, divestiture, liquidation, related diversification.',COMPETITIVE:'Compete hard \u2014 integration, market penetration & development, product development.'}[quad];
+  el('space-read').innerHTML='X = CP+IP = <b>'+X.toFixed(1)+'</b> &middot; Y = FP+SP = <b>'+Y.toFixed(1)+'</b><br><span class="verdict">'+quad+' quadrant.</span> '+rec;
+}
+function spaceCalc(){var fp=+el('s-fp').value,ip=+el('s-ip').value,cp=+el('s-cp').value,sp=+el('s-sp').value;el('v-fp').textContent='+'+fp;el('v-ip').textContent='+'+ip;el('v-cp').textContent='\u2212'+Math.abs(cp);el('v-sp').textContent='\u2212'+Math.abs(sp);spaceDraw(fp,ip,cp,sp);}
+function spaceReset(){el('s-fp').value=4;el('s-ip').value=4;el('s-cp').value=-2;el('s-sp').value=-3;spaceCalc();}
+
+/* ============ TOOL 8 — BCG ============ */
+var bcgSel=-1;
+function bcgDraw(){
+  var x0=42,x1=362,y0=30,y1=300;
+  function px(r){return x0+(1-r)*(x1-x0);}
+  function py(g){return y0+(20-g)/40*(y1-y0);}
+  var midX=px(0.5),midY=py(0);var s='';
+  s+='<rect x="'+x0+'" y="'+y0+'" width="'+(midX-x0)+'" height="'+(midY-y0)+'" fill="#dff3df" opacity=".4"/>';
+  s+='<rect x="'+midX+'" y="'+y0+'" width="'+(x1-midX)+'" height="'+(midY-y0)+'" fill="#dfeefb" opacity=".4"/>';
+  s+='<rect x="'+x0+'" y="'+midY+'" width="'+(midX-x0)+'" height="'+(y1-midY)+'" fill="#fbf1d4" opacity=".4"/>';
+  s+='<rect x="'+midX+'" y="'+midY+'" width="'+(x1-midX)+'" height="'+(y1-midY)+'" fill="#f7e2db" opacity=".4"/>';
+  s+='<line x1="'+midX+'" y1="'+y0+'" x2="'+midX+'" y2="'+y1+'" stroke="#b9cdb6" stroke-dasharray="3,3"/><line x1="'+x0+'" y1="'+midY+'" x2="'+x1+'" y2="'+midY+'" stroke="#b9cdb6" stroke-dasharray="3,3"/>';
+  s+='<rect x="'+x0+'" y="'+y0+'" width="'+(x1-x0)+'" height="'+(y1-y0)+'" fill="none" stroke="#cdded5"/>';
+  s+='<text x="'+(x0+50)+'" y="'+(y0+16)+'" font-family="Georgia" font-size="12" fill="#0a6b16" font-weight="700">Stars</text>';
+  s+='<text x="'+(midX+40)+'" y="'+(y0+16)+'" font-family="Georgia" font-size="12" fill="#1a5a8a" font-weight="700">Question Marks</text>';
+  s+='<text x="'+(x0+44)+'" y="'+(y1-8)+'" font-family="Georgia" font-size="12" fill="#8a6b14" font-weight="700">Cash Cows</text>';
+  s+='<text x="'+(midX+70)+'" y="'+(y1-8)+'" font-family="Georgia" font-size="12" fill="#8a3320" font-weight="700">Dogs</text>';
+  s+='<text x="'+x0+'" y="'+(y0-8)+'" font-size="9" fill="#666">High share 1.0</text><text x="'+(x1-46)+'" y="'+(y0-8)+'" font-size="9" fill="#666">Low 0.0</text>';
+  s+='<text x="'+(x1+2)+'" y="'+(y0+10)+'" font-size="9" fill="#666">+20%</text><text x="'+(x1+2)+'" y="'+(y1)+'" font-size="9" fill="#666">-20%</text>';
+  BCG.forEach(function(b,i){var rad=8+b.rev*0.45;var cxp=px(b.rmsp),cyp=py(b.growth);var on=i===bcgSel;s+='<circle cx="'+cxp.toFixed(1)+'" cy="'+cyp.toFixed(1)+'" r="'+rad.toFixed(1)+'" fill="'+(on?'#028A0F':'#7bc486')+'" fill-opacity="'+(on?'0.9':'0.55')+'" stroke="'+(on?'#06340B':'#3f8f4a')+'" stroke-width="'+(on?'3':'1.5')+'"/>';s+='<text x="'+cxp.toFixed(1)+'" y="'+(cyp+4).toFixed(1)+'" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" font-weight="700" fill="#fff">'+(i+1)+'</text>';});
+  el('bcg-svg').innerHTML=s;
+  var h='';BCG.forEach(function(b,i){h+='<button class="btn" style="text-align:left;font-size:12.5px;'+(i===bcgSel?'background:var(--mist-2);border-color:var(--emerald)':'')+'" onclick="bcgPick('+i+')"><b>'+(i+1)+'. '+b.name+'</b><br><span style="color:var(--muted);font-size:11.5px">'+b.q+(i===bcgSel?' \u2014 '+b.note:'')+'</span></button>';});
+  el('bcg-list').innerHTML=h;
+}
+function bcgPick(i){bcgSel=(bcgSel===i?-1:i);bcgDraw();}
+
+/* ============ TOOL 9 — IE ============ */
+function ieDraw(ife,efe){
+  var x0=30,x1=330,y0=30,y1=330;
+  function px(v){return x0+(4-v)/3*(x1-x0);}
+  function py(v){return y0+(4-v)/3*(y1-y0);}
+  var vx2=px(2),vx3=px(3),hy2=py(2),hy3=py(3);var s='';
+  s+='<rect x="'+x0+'" y="'+y0+'" width="'+(vx2-x0)+'" height="'+(hy3-y0)+'" fill="#dff3df" opacity=".45"/>';
+  s+='<rect x="'+x0+'" y="'+hy3+'" width="'+(vx3-x0)+'" height="'+(hy2-hy3)+'" fill="#dff3df" opacity=".45"/>';
+  s+='<rect x="'+vx2+'" y="'+y0+'" width="'+(x1-vx2)+'" height="'+(hy3-y0)+'" fill="#fbf1d4" opacity=".42"/>';
+  s+='<rect x="'+vx3+'" y="'+hy3+'" width="'+(vx2-vx3)+'" height="'+(hy2-hy3)+'" fill="#fbf1d4" opacity=".42"/>';
+  s+='<rect x="'+x0+'" y="'+hy2+'" width="'+(vx3-x0)+'" height="'+(y1-hy2)+'" fill="#fbf1d4" opacity=".42"/>';
+  s+='<rect x="'+vx2+'" y="'+hy3+'" width="'+(x1-vx2)+'" height="'+(hy2-hy3)+'" fill="#f7e2db" opacity=".42"/>';
+  s+='<rect x="'+vx3+'" y="'+hy2+'" width="'+(vx2-vx3)+'" height="'+(y1-hy2)+'" fill="#f7e2db" opacity=".42"/>';
+  s+='<rect x="'+vx2+'" y="'+hy2+'" width="'+(x1-vx2)+'" height="'+(y1-hy2)+'" fill="#f7e2db" opacity=".42"/>';
+  s+='<g stroke="#b9cdb6" stroke-width="1"><rect x="'+x0+'" y="'+y0+'" width="'+(x1-x0)+'" height="'+(y1-y0)+'" fill="none"/><line x1="'+vx3+'" y1="'+y0+'" x2="'+vx3+'" y2="'+y1+'"/><line x1="'+vx2+'" y1="'+y0+'" x2="'+vx2+'" y2="'+y1+'"/><line x1="'+x0+'" y1="'+hy3+'" x2="'+x1+'" y2="'+hy3+'"/><line x1="'+x0+'" y1="'+hy2+'" x2="'+x1+'" y2="'+hy2+'"/></g>';
+  var cells=[['I',(x0+vx3)/2,(y0+hy3)/2],['II',(vx3+vx2)/2,(y0+hy3)/2],['III',(vx2+x1)/2,(y0+hy3)/2],['IV',(x0+vx3)/2,(hy3+hy2)/2],['V',(vx3+vx2)/2,(hy3+hy2)/2],['VI',(vx2+x1)/2,(hy3+hy2)/2],['VII',(x0+vx3)/2,(hy2+y1)/2],['VIII',(vx3+vx2)/2,(hy2+y1)/2],['IX',(vx2+x1)/2,(hy2+y1)/2]];
+  cells.forEach(function(c){s+='<text x="'+c[1].toFixed(0)+'" y="'+c[2].toFixed(0)+'" text-anchor="middle" font-family="Georgia" font-size="14" fill="#9bbf97" font-weight="700">'+c[0]+'</text>';});
+  s+='<text x="'+x0+'" y="'+(y0-8)+'" font-size="9" fill="#666">Strong 4.0</text><text x="'+(x1-30)+'" y="'+(y0-8)+'" font-size="9" fill="#666">Weak 1.0</text>';
+  s+='<text x="6" y="'+(y0+12)+'" font-size="9" fill="#666">EFE 4</text><text x="6" y="'+(y1)+'" font-size="9" fill="#666">EFE 1</text>';
+  var cxp=px(ife),cyp=py(efe);
+  s+='<circle cx="'+cxp.toFixed(1)+'" cy="'+cyp.toFixed(1)+'" r="11" fill="#028A0F" stroke="#fff" stroke-width="2.5"/>';
+  s+='<text x="'+(cxp+16).toFixed(1)+'" y="'+(cyp-10).toFixed(1)+'" font-family="ui-monospace,monospace" font-size="11" font-weight="700" fill="#06340B">('+ife.toFixed(2)+', '+efe.toFixed(2)+')</text>';
+  el('ie-svg').innerHTML=s;
+  var colB=ife>=3?0:(ife>=2?1:2);var rowB=efe>=3?0:(efe>=2?1:2);
+  var grid=[['I','II','III'],['IV','V','VI'],['VII','VIII','IX']];var cell=grid[rowB][colB];var region,presc;
+  if(['I','II','IV'].indexOf(cell)>=0){region='Region 1 \u00b7 Grow & Build';presc='Intensive (penetration, development, product development) or integrative strategies.';}
+  else if(['III','V','VII'].indexOf(cell)>=0){region='Region 2 \u00b7 Hold & Maintain';presc='Market penetration and product development.';}
+  else{region='Region 3 \u00b7 Harvest or Divest';presc='Retrenchment or divestiture.';}
+  el('ie-read').innerHTML='Lands in <b>Cell '+cell+'</b> \u2192 <span class="verdict">'+region+'.</span> '+presc;
+}
+function ieCalc(){var i=+el('s-ifeie').value,e=+el('s-efeie').value;el('v-ifeie').textContent=i.toFixed(2);el('v-efeie').textContent=e.toFixed(2);ieDraw(i,e);}
+function ieReset(){el('s-ifeie').value=2.88;el('s-efeie').value=3.12;ieCalc();}
+
+/* ============ TOOL 10 — GRAND ============ */
+function grandDraw(comp,grow){
+  var x0=30,x1=330,y0=30,y1=330;
+  function px(v){return x0+v/100*(x1-x0);}
+  function py(v){return y1-v/100*(y1-y0);}
+  var mx=px(50),my=py(50);var s='';
+  s+='<rect x="'+x0+'" y="'+y0+'" width="'+(mx-x0)+'" height="'+(my-y0)+'" fill="#dfeefb" opacity=".4"/>';
+  s+='<rect x="'+mx+'" y="'+y0+'" width="'+(x1-mx)+'" height="'+(my-y0)+'" fill="#dff3df" opacity=".5"/>';
+  s+='<rect x="'+x0+'" y="'+my+'" width="'+(mx-x0)+'" height="'+(y1-my)+'" fill="#f7e2db" opacity=".4"/>';
+  s+='<rect x="'+mx+'" y="'+my+'" width="'+(x1-mx)+'" height="'+(y1-my)+'" fill="#fbf1d4" opacity=".45"/>';
+  s+='<g stroke="#b9cdb6"><rect x="'+x0+'" y="'+y0+'" width="'+(x1-x0)+'" height="'+(y1-y0)+'" fill="none"/><line x1="'+mx+'" y1="'+y0+'" x2="'+mx+'" y2="'+y1+'"/><line x1="'+x0+'" y1="'+my+'" x2="'+x1+'" y2="'+my+'"/></g>';
+  s+='<text x="'+((x0+mx)/2)+'" y="'+(y0+18)+'" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#1a5a8a">Quadrant II</text>';
+  s+='<text x="'+((mx+x1)/2)+'" y="'+(y0+18)+'" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#0a6b16">Quadrant I</text>';
+  s+='<text x="'+((x0+mx)/2)+'" y="'+(y1-8)+'" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#8a3320">Quadrant III</text>';
+  s+='<text x="'+((mx+x1)/2)+'" y="'+(y1-8)+'" text-anchor="middle" font-family="Georgia" font-size="13" font-weight="700" fill="#8a6b14">Quadrant IV</text>';
+  s+='<text x="'+(mx)+'" y="'+(y0-8)+'" text-anchor="middle" font-size="9" fill="#666">RAPID GROWTH</text><text x="'+(mx)+'" y="'+(y1+18)+'" text-anchor="middle" font-size="9" fill="#666">SLOW GROWTH</text>';
+  s+='<text x="'+(x0-4)+'" y="'+(my-4)+'" text-anchor="end" font-size="9" fill="#666">WEAK</text><text x="'+(x1+4)+'" y="'+(my-4)+'" font-size="9" fill="#666">STRONG</text>';
+  var cxp=px(comp),cyp=py(grow);
+  s+='<circle cx="'+cxp.toFixed(1)+'" cy="'+cyp.toFixed(1)+'" r="10" fill="#028A0F" stroke="#fff" stroke-width="2.5"/>';
+  el('grand-svg').innerHTML=s;
+  var strong=comp>=50,rapid=grow>=50;var q=rapid?(strong?'I':'II'):(strong?'IV':'III');
+  var info={I:'Excellent position \u2014 concentrate on current markets & products; integrate when resource-rich.',II:'Rapid market but weak \u2014 fix competitiveness; intensive strategies first, then horizontal integration, divestiture as last resort.',III:'Slow & weak \u2014 retrench fast; diversify or, failing that, divest/liquidate.',IV:'Strong but slow \u2014 deploy cash into faster-growing areas via related/unrelated diversification or joint ventures.'};
+  el('v-comp').textContent=strong?'Strong':'Weak';el('v-grow').textContent=rapid?'Rapid':'Slow';
+  el('grand-read').innerHTML='<span class="verdict">Quadrant '+q+'.</span> '+info[q];
+}
+function grandCalc(){grandDraw(+el('s-comp').value,+el('s-grow').value);}
+function grandReset(){el('s-comp').value=80;el('s-grow').value=30;grandCalc();}
+
+/* ============ TOOL 11 — QSPM ============ */
+function qspmSel(side,i,v){var o='';for(var n=1;n<=4;n++){o+='<option value="'+n+'"'+(n===v?' selected':'')+'>'+n+'</option>';}return '<select id="'+side+'-'+i+'" onchange="qspmCalc()" style="font-family:var(--mono);font-size:12px;padding:3px 5px;border:1px solid var(--line);border-radius:6px;background:#fff">'+o+'</select>';}
+function qspmRender(){var h='<tr><th>Key factor (from EFE/IFE)</th><th>Wt</th><th>AS&middot;Water</th><th>TAS</th><th>AS&middot;Snacks</th><th>TAS</th></tr>';QF.forEach(function(f,i){h+='<tr><td>'+f.k+'</td><td class="num">'+f.w.toFixed(2)+'</td><td class="num">'+qspmSel('a',i,f.a)+'</td><td class="num" id="ta-'+i+'"></td><td class="num">'+qspmSel('b',i,f.b)+'</td><td class="num" id="tb-'+i+'"></td></tr>';});el('qspm-tbl').innerHTML=h;qspmCalc();}
+function qspmCalc(){var A=0,B=0;QF.forEach(function(f,i){var a=+el('a-'+i).value,b=+el('b-'+i).value;var ta=f.w*a,tb=f.w*b;A+=ta;B+=tb;el('ta-'+i).innerHTML='<b>'+ta.toFixed(2)+'</b>';el('tb-'+i).innerHTML='<b>'+tb.toFixed(2)+'</b>';});var win=A>B?'Bottled water wins':(B>A?'Snack diversification wins':'It is a tie');el('qspm-foot').innerHTML='<div class="readout">Strategy 1 \u00b7 Expand bottled water &nbsp; STAS = <b>'+A.toFixed(2)+'</b></div><div class="readout">Strategy 2 \u00b7 Diversify into snacks &nbsp; STAS = <b>'+B.toFixed(2)+'</b></div><div class="chip gold" style="font-size:13px">'+win+'</div><div class="note">Representative factors shown for clarity \u2014 a full QSPM uses every EFE & IFE factor.</div>';}
+
+/* ============ TOOL 12 — MASTERY QUIZ ============ */
+var QZ=[
+ {q:"The SWOT matrix belongs to which stage of the framework?",o:["Stage 1 \u2014 Input","Stage 2 \u2014 Matching","Stage 3 \u2014 Decision","A separate model"],a:1,e:"SWOT is a Stage-2 matching tool, alongside SPACE, BCG, IE and Grand."},
+ {q:"An SO strategy is best described as...",o:["Defensive: reduce weakness & threat","Offensive: use strengths to seize opportunities","Neutral: hold position","Exit: divest or liquidate"],a:1,e:"SO = strengths matched with opportunities \u2014 the offensive, ideal quadrant."},
+ {q:"Coca-Cola's supplied scores are IFE 2.88 and EFE 3.12. On the IE matrix this lands in...",o:["Cell V \u2014 Hold & Maintain","Cell IX \u2014 Harvest or Divest","Cell II \u2014 Grow & Build","Cell I \u2014 Grow & Build"],a:2,e:"IFE 2.88 is average (middle column); EFE 3.12 is high (top row) \u2014 so Cell II, Region 1, Grow & Build."},
+ {q:"Which of these is NOT one of the 11 strategy types?",o:["Forward integration","Market penetration","Be specific","Related diversification"],a:2,e:"'Be specific' is good advice, not a strategy type."},
+ {q:"In a QSPM, an Attractiveness Score (AS) of 4 means the strategy is...",o:["Not attractive","Somewhat attractive","Reasonably attractive","Highly attractive"],a:3,e:"AS runs 1 (not attractive) to 4 (highly attractive), judged factor by factor."},
+ {q:"A SPACE vector in the upper-right (Aggressive) quadrant tells a firm to...",o:["Retrench and divest","Pursue aggressive growth strategies","Stay conservative near its core","Liquidate"],a:1,e:"Aggressive = use strengths to seize opportunities (penetration, development, integration, diversification)."},
+ {q:"'Forward integration' means gaining control over a firm's...",o:["Suppliers","Competitors","Distributors or retailers","Internal R&D"],a:2,e:"Forward = toward the customer (distributors/retailers). Backward = suppliers. Horizontal = competitors."},
+ {q:"Why must SWOT strategies be stated specifically, with numbers?",o:["To look professional","So their cost or savings can be estimated","To fill up the matrix","Because the template requires it"],a:1,e:"If you cannot put a dollar figure on it, it is too vague \u2014 specificity lets a recommendation be costed."}];
+var qzi=0,qzs=0,qzn=0,qzdone=false;
+function qzRender(){qzdone=false;var q=QZ[qzi];el('qz-prog').textContent='Question '+(qzi+1)+' of '+QZ.length;el('qz-q').textContent=q.q;el('qz-opts').innerHTML=q.o.map(function(o,i){return '<button class="opt" onclick="qzPick(this,'+i+')">'+o+'</button>';}).join('');el('qz-fb').style.display='none';}
+function qzPick(btn,i){if(qzdone)return;qzdone=true;qzn++;var q=QZ[qzi];var ok=(i===q.a);if(ok)qzs++;el('qz-opts').querySelectorAll('button').forEach(function(b,j){b.disabled=true;if(j===q.a)b.classList.add('correct');else if(b===btn)b.classList.add('wrong');});el('qz-score').textContent='Score '+qzs+' / '+qzn;el('qz-fb').style.display='block';el('qz-fb').innerHTML=(ok?'<span class="verdict">Correct \u2713</span> ':'<span style="color:#C0492B;font-weight:700">Not quite.</span> ')+q.e;}
+function qzNext(){if(qzi<QZ.length-1){qzi++;qzRender();}else{el('qz-prog').textContent='Done';el('qz-q').textContent='Quiz complete.';el('qz-opts').innerHTML='<div class="readout" style="font-size:15px">You scored <b>'+qzs+' / '+qzn+'</b>'+(qzn>0?' ('+Math.round(qzs/qzn*100)+'%)':'')+'. '+(qzs===QZ.length?'Perfect \u2014 you have Chapter 6 down cold.':'Press Restart to try again.')+'</div>';el('qz-fb').style.display='none';}}
+function qzRestart(){qzi=0;qzs=0;qzn=0;el('qz-score').textContent='Score 0 / 0';qzRender();}
+
+/* ============ INIT ============ */
+function init(){
+  var oh='';TITLES.forEach(function(t,i){oh+='<option value="'+i+'">'+(i+1)+'. '+t+'</option>';});el('jump').innerHTML=oh;
+  renderMtx('efe-opp-tbl',EFE_OPP,'Opportunity');
+  renderMtx('efe-thr-tbl',EFE_THR,'Threat');
+  renderMtx('ife-str-tbl',IFE_STR,'Strength');
+  renderMtx('ife-wk-tbl',IFE_WK,'Weakness');
+  fwShow(1);gaugeDraw();swShow('SO');m4Render();
+  strSlide('SO','so-slide');strSlide('ST','st-slide');strSlide('WO','wo-slide');strSlide('WT','wt-slide');
+  seRender();mapTable();c6Render();
+  spaceCalc();bcgDraw();ieCalc();grandCalc();qspmRender();qzRender();
+  show(0);fit();
+}
+init();
+window.addEventListener('load',fit);
+</script>
+</body>
+</html>
